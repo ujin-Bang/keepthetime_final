@@ -24,6 +24,12 @@ class SignInActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.btnSignup.setOnClickListener {
+
+
+
+        }
+
         binding.btnLogin.setOnClickListener {
 
             val inputEmail = binding.edtEmail.text.toString()
