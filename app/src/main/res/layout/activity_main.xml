@@ -8,10 +8,14 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-        <TextView
-            android:id="@+id/txtUserId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="서버에서 받아온 유저번호로 바뀌는 자리"/>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/mainTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/mainViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </layout>
