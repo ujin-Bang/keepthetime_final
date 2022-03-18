@@ -6,6 +6,9 @@ plugins {
 android {
     compileSdk 32
 
+    buildFeatures {
+        dataBinding = true
+    }
     defaultConfig {
         applicationId "com.example.keepthetime_final"
         minSdk 21
