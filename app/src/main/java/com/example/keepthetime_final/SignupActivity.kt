@@ -41,6 +41,9 @@ class SignupActivity : BaseActivity() {
                         Toast.makeText(mContext, "${br.data.user.nick_name}님 가입을 축하드립니다.", Toast.LENGTH_SHORT).show()
                     }
 
+                    else{
+                        Toast.makeText(mContext, response.body()!!.message, Toast.LENGTH_SHORT).show()
+                    }
 
                 }
 
