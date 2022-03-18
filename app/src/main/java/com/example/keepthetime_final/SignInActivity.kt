@@ -1,5 +1,6 @@
 package com.example.keepthetime_final
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -26,7 +27,8 @@ class SignInActivity : BaseActivity() {
 
         binding.btnSignup.setOnClickListener {
 
-
+            val myIntent = Intent( mContext, SignupActivity::class.java)
+            startActivity(myIntent)
 
         }
 
