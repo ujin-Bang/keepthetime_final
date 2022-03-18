@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_final.databinding.ActivitySigninBinding
 import com.example.keepthetime_final.datas.BasicResponse
+import com.example.keepthetime_final.utils.ContextUtil
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -47,11 +48,20 @@ class SignInActivity : BaseActivity() {
 
                         val br = response.body()!!
 
-                        Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mContext, "${br.data.user.nick_name}님 환영합니다.", Toast.LENGTH_SHORT).show()
+
+//                        로그인하면 토큰값을 내려줌 , 서버가 내려주는 토큰값 저장
+                        ContextUtil.setLoginUserToken(mContext, br.data.token)
+
+                        val myItent = Intent(mContext, MainActivity::class.java)
+                        startActivity(myItent)
+
+                        finish()
                     }
                     else{
 
-                        Toast.makeText(mContext, "로그인 실패입니다.확인해주세요", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mContext, "비밀번호 이메일을 다시 확인해주세요", Toast.LENGTH_SHORT).show()
+
 
                     }
 
