@@ -27,4 +27,10 @@ interface APIList {
         @Header("X-Http-Token") header: String,
     ):Call<BasicResponse>
 
+    @GET("/user/check")
+    fun getRequestDupleCheck(
+        @Query("type") type: String,
+        @Query("value") value: String,
+    ):Call<BasicResponse>
+
 }
