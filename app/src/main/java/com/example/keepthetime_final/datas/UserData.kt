@@ -6,5 +6,7 @@ class UserData(
     val nick_name: String,
     val creat_at: String,
     val updated_at: String,
+
+    val profile_img: String,
 ) {
 }
