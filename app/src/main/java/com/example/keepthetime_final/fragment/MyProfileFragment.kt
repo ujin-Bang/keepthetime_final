@@ -1,9 +1,11 @@
 package com.example.keepthetime_final.fragment
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -36,6 +38,18 @@ class MyProfileFragment: BaseFragment() {
     }
 
     override fun setupEvents() {
+
+        binding.txtLogOut.setOnClickListener {
+
+            val alert = AlertDialog.Builder(mContext)
+                .setTitle("로그아웃")
+                .setMessage("정말 로그아웃 하시겠습니까?")
+                .setPositiveButton("예", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                })
+                .setNegativeButton("아니요", null)
+                .show()
+        }
 
     }
 
