@@ -32,11 +32,37 @@ class MyFriendAdapter(
         val imgProfile = row.findViewById<ImageView>(R.id.imgProfile)
         val txtNickname = row.findViewById<TextView>(R.id.txtNickname)
         val txtEmail = row.findViewById<TextView>(R.id.txtEmail)
+        val imgSocialLogo = row.findViewById<ImageView>(R.id.imgSocialLogo)
 
         Glide.with(mContext).load(data.profile_img).into(imgProfile)
         txtNickname.text = data.nick_name
-        txtEmail.text = data.email
 
+
+        when(data.provider) {
+            "default" ->{
+                txtEmail.text = data.email
+                imgSocialLogo.visibility = View.GONE
+
+            }
+            "kakao" ->{
+                txtEmail.text = "카카오 로그인"
+                imgSocialLogo.visibility = View.VISIBLE
+                Glide.with(mContext).load(R.drawable.kakao_logo).into(imgSocialLogo)
+            }
+            "facebook" -> {
+                txtEmail.text = "페이스북 로그인"
+                imgSocialLogo.visibility = View.VISIBLE
+                Glide.with(mContext).load(R.drawable.facebook_logo).into(imgSocialLogo)
+            }
+            "naver" -> {
+                txtEmail.text = "네이버 로그인"
+                imgSocialLogo.visibility = View.VISIBLE
+                Glide.with(mContext).load(R.drawable.naver_logo).into(imgSocialLogo)
+            }
+            else ->{
+
+            }
+        }
 
 
         return row

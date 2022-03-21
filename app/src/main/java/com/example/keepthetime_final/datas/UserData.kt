@@ -7,6 +7,8 @@ class UserData(
     val creat_at: String,
     val updated_at: String,
 
+    val provider: String,
+
     val profile_img: String,
 ) {
 }
