@@ -1,6 +1,5 @@
 package com.example.keepthetime_final
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,27 +14,33 @@ import retrofit2.Response
 
 class SearchUserActivity : BaseActivity() {
 
-    lateinit var binding : ActivitySearchUserBinding
+    lateinit var binding: ActivitySearchUserBinding
 
     val mSearchUserList = ArrayList<UserData>()
 
-    lateinit var mSearchUserAdapter : SearchUserRecyclerAdapter
+    lateinit var mSearchUserAdapter: SearchUserRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       binding = DataBindingUtil.setContentView(this,R.layout.activity_search_user)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_search_user)
+        setupEvents()
+        setValues()
     }
 
     override fun setupEvents() {
 
-        binding.btnSearch.setOnClickListener{
+        binding.btnSearch.setOnClickListener {
 
-           val inputKeyword = binding.edtSearchNickname.text.toString()
+            val inputKeyword = binding.edtSearchNickname.text.toString()
 
-                apilist.getRequestSearchUserList(ContextUtil.getLoginUerToken(mContext),inputKeyword).enqueue(object : Callback<BasicResponse>{
-                    override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+            apilist.getRequestSearchUserList(ContextUtil.getLoginUerToken(mContext), inputKeyword)
+                .enqueue(object : Callback<BasicResponse> {
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
 
-                        if (response.isSuccessful){
+                        if (response.isSuccessful) {
 
                             mSearchUserList.clear()
                             val br = response.body()!!
@@ -53,16 +58,15 @@ class SearchUserActivity : BaseActivity() {
                     }
 
                 })
-            }
-
         }
 
+    }
 
 
     override fun setValues() {
 
 
-        mSearchUserAdapter = SearchUserRecyclerAdapter(mContext,mSearchUserList)
+        mSearchUserAdapter = SearchUserRecyclerAdapter(mContext, mSearchUserList)
         binding.searchResultUserRecylerView.adapter = mSearchUserAdapter
         binding.searchResultUserRecylerView.layoutManager = LinearLayoutManager(mContext)
     }

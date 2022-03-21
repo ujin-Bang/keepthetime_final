@@ -4,7 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.keepthetime_final.R
 import com.example.keepthetime_final.datas.UserData
 
@@ -15,7 +19,41 @@ class SearchUserRecyclerAdapter(
 
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
+        val imgProfile = view.findViewById<ImageView>(R.id.imgProfile)
+        val txtNickname = view.findViewById<TextView>(R.id.txtNickname)
+        val imgSocialLogo = view.findViewById<ImageView>(R.id.imgSocialLogo)
+        val txtEmail = view.findViewById<TextView>(R.id.txtEmail)
+        val btnAddFriend = view.findViewById<Button>(R.id.btnAddFriend)
 
+        fun bind(data: UserData){
+            txtNickname.text = data.nick_name
+
+            Glide.with(mContext).load(data.profile_img).into(imgProfile)
+
+            when( data.provider) {
+
+                "default" -> {
+                    imgSocialLogo.visibility = View.GONE
+                    txtEmail.text = data.email
+                }
+                "kakao" -> {
+                    imgSocialLogo.visibility = View.VISIBLE
+                    imgSocialLogo.setImageResource(R.drawable.kakao_logo)
+                    txtEmail.text = "카카오 로그인"
+                }
+                "facebook" -> {
+                    imgSocialLogo.visibility = View.VISIBLE
+                    imgSocialLogo.setImageResource(R.drawable.facebook_logo)
+                    txtEmail.text = "페이스북 로그인"
+                }
+                "naver" -> {
+                    imgSocialLogo.visibility = View.VISIBLE
+                    imgSocialLogo.setImageResource(R.drawable.naver_logo)
+                    txtEmail.text = "네이버 로그인"
+                }
+
+            }
+        }
     }
 
 
@@ -29,6 +67,9 @@ class SearchUserRecyclerAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
+        val data = mList[position]
+
+        holder.bind(data)
     }
 
     override fun getItemCount() = mList.size
