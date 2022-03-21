@@ -33,7 +33,7 @@ class SearchUserActivity : BaseActivity() {
 
             val inputKeyword = binding.edtSearchNickname.text.toString()
 
-            apilist.getRequestSearchUserList(ContextUtil.getLoginUerToken(mContext), inputKeyword)
+            apilist.getRequestSearchUserList( inputKeyword)
                 .enqueue(object : Callback<BasicResponse> {
                     override fun onResponse(
                         call: Call<BasicResponse>,

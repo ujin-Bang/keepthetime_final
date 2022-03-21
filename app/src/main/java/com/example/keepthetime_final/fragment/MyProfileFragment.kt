@@ -68,7 +68,7 @@ class MyProfileFragment: BaseFragment() {
 
     override fun setValues() {
 
-        apiList.getRequestMyInfo(ContextUtil.getLoginUerToken(mContext)).enqueue(object : Callback<BasicResponse>{
+        apiList.getRequestMyInfo().enqueue(object : Callback<BasicResponse>{
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
                 if (response.isSuccessful){

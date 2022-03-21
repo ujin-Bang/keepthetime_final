@@ -7,12 +7,17 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.keepthetime_final.R
 import com.example.keepthetime_final.api.APIList
 import com.example.keepthetime_final.api.ServerAPI
+import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.datas.UserData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SearchUserRecyclerAdapter(
     val mContext: Context,
@@ -55,9 +60,34 @@ class SearchUserRecyclerAdapter(
                 }
 
             }
+            btnAddFriend.setOnClickListener {
 
-            val retrofit = ServerAPI.getRetrofit(mContext)
-            val apiList = retrofit.create(APIList::class.java)
+                val retrofit = ServerAPI.getRetrofit(mContext)
+                val apiList = retrofit.create(APIList::class.java)
+
+                apiList.postRequestAddFriend(data.id).enqueue(object : Callback<BasicResponse>{
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+
+                        if (response.isSuccessful){
+
+                            val br = response.body()!!
+                            Toast.makeText(mContext, "친구요청을 했어유", Toast.LENGTH_SHORT).show()
+
+                        }
+
+                    }
+
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                    }
+
+                })
+            }
+
+
         }
     }
 

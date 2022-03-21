@@ -40,4 +40,10 @@ interface APIList {
     fun getRequestSearchUserList(
         @Query("nickname") nickname: String,
     ): Call<BasicResponse>
+
+    @FormUrlEncoded
+    @POST("/user/friend")
+    fun postRequestAddFriend(
+        @Field("user_id") userid: Int,
+    ): Call<BasicResponse>
 }
