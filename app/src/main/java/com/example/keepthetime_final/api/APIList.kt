@@ -23,9 +23,7 @@ interface APIList {
     ) : Call<BasicResponse>
 
     @GET("/user")
-    fun getRequestMyInfo(
-        @Header("X-Http-Token") header: String,
-    ):Call<BasicResponse>
+    fun getRequestMyInfo():Call<BasicResponse>
 
     @GET("/user/check")
     fun getRequestDupleCheck(
@@ -35,13 +33,11 @@ interface APIList {
 
     @GET("/user/friend")
     fun getRequestMyFriendList(
-        @Header("X-Http-Token") token: String,
         @Query("type") type: String,
     ): Call<BasicResponse>
 
     @GET("/search/user")
     fun getRequestSearchUserList(
-        @Header("X-Http-Token") token: String,
         @Query("nickname") nickname: String,
     ): Call<BasicResponse>
 }
