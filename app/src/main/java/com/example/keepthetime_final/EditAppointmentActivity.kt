@@ -7,10 +7,14 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_final.databinding.ActivityEditAppointmentBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditAppointmentActivity : BaseActivity() {
 
     lateinit var binding: ActivityEditAppointmentBinding
+
+    val mSelectedAppointmentDateTime = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +30,11 @@ class EditAppointmentActivity : BaseActivity() {
             val dsl = object : DatePickerDialog.OnDateSetListener{
                 override fun onDateSet(p0: DatePicker?, year: Int, month: Int, day: Int) {
 
-                    Toast.makeText(mContext, "${year}년${month}월${day}일 선택함", Toast.LENGTH_SHORT).show()
+                    mSelectedAppointmentDateTime.set(year, month, day)
 
+                    val sdf = SimpleDateFormat("yy/MM/dd")
+
+                    binding.txtDate.text = sdf.format(mSelectedAppointmentDateTime.time)
                 }
 
             }
