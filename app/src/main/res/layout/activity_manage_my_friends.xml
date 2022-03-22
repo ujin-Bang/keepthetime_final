@@ -28,7 +28,7 @@
 
 
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAddFriend"
                 android:layout_gravity="end|bottom"
                 android:layout_width="wrap_content"

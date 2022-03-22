@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:hint="검색할 닉네임을 입력하세요"/>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
