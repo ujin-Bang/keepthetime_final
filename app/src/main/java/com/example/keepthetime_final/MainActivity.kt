@@ -15,7 +15,6 @@ class MainActivity : BaseActivity() {
 
     lateinit var binding: ActivityMainBinding
 
-    lateinit var mMainViewPagerAdapter: MainViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,29 +29,8 @@ class MainActivity : BaseActivity() {
 
     override fun setValues() {
 
-        mMainViewPagerAdapter = MainViewPagerAdapter(supportFragmentManager)
-        binding.mainViewPager.adapter = mMainViewPagerAdapter
-        binding.mainTabLayout.setupWithViewPager(binding.mainViewPager)
 
 
-        apilist.getRequestMyInfo().enqueue(object : Callback<BasicResponse>{
-            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-
-                if (response.isSuccessful){
-
-                    val br = response.body()!!
-
-
-
-                }
-
-            }
-
-            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-
-            }
-
-        })
 
     }
 }

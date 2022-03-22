@@ -1,15 +1,23 @@
 package com.example.keepthetime_final.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.keepthetime_final.R
+import com.example.keepthetime_final.api.APIList
+import com.example.keepthetime_final.api.ServerAPI
+import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.datas.UserData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RequestedUserRecyclerAdapter(
     val mContext: Context,
@@ -22,6 +30,8 @@ class RequestedUserRecyclerAdapter(
         val txtNickname = view.findViewById<TextView>(R.id.txtNickname)
         val imgSocialLogo = view.findViewById<ImageView>(R.id.imgSocialLogo)
         val txtEmail = view.findViewById<TextView>(R.id.txtEmail)
+        val btnAccept = view.findViewById<Button>(R.id.btnAccept)
+        val btnDeny = view.findViewById<Button>(R.id.btnDeny)
 
         fun bind(data : UserData){
 
@@ -50,8 +60,35 @@ class RequestedUserRecyclerAdapter(
                 else ->{
 
                 }
+
+
             }
 
+            val ocl = View.OnClickListener {
+                val tagStr = it.tag.toString()
+                Log.d("보낼파라미터",tagStr)
+
+                val retrofit = ServerAPI.getRetrofit(mContext)
+                val apiList = retrofit.create(APIList::class.java)
+
+                apiList.putRequestAcceptOrDenyFriend(data.id, tagStr).enqueue(object : Callback<BasicResponse>{
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+                        if (response.isSuccessful){
+
+                        }
+                    }
+
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                    }
+
+                })
+            }
+            btnAccept.setOnClickListener(ocl)
+            btnDeny.setOnClickListener(ocl)
         }
 
     }
