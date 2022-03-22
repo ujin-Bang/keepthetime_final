@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/Appointment"
+        android:title="내 약속 목록"
+        android:icon="@drawable/clock_icon"/>
+
+    <item
+        android:id="@+id/myProfile"
+        android:title="내 프로필"
+        android:icon="@drawable/user_icon"/>
+
+    <item
+        android:id="@+id/myNote"
+        android:title="채팅 하기"
+        android:icon="@drawable/note_icon"/>
+
+</menu>

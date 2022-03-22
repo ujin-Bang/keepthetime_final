@@ -12,5 +12,15 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+<!--        앱 전반의 버튼 테마를 하단의 myCompatButton으로 태그 변경-->
+<!--        일반 Button 태그 대신 AppCompatButton으로 태그 변경-->
+        <item name="buttonStyle">@style/myCustomBtn</item>
+    </style>
+
+    <style name="myCustomBtn" parent="Widget.AppCompat.Button">
+<!--        android:backgroundTint를 밝은 회색으로-->
+        <item name="backgroundTint">@color/light_gray2</item>
+
     </style>
 </resources>

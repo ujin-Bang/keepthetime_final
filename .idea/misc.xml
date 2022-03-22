@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/drawable/e.xml" value="0.1485" />
+        <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/drawable/light_gray_border_box.xml" value="0.6" />
+        <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/activity_edit_appointment.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/activity_main.xml" value="0.21203703703703702" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/activity_main2.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/activity_manage_my_friends.xml" value="0.264" />
@@ -12,6 +14,7 @@
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/activity_signup.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/activity_splash.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/fragment_appointment_list.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/fragment_appointment_memo.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/fragment_my_friends.xml" value="0.2" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/fragment_my_profile.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/fragment_requested_user.xml" value="0.17708333333333334" />
@@ -19,6 +22,7 @@
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/request_user_list_item.xml" value="0.264" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/seach_user_list_item.xml" value="0.17708333333333334" />
         <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/layout/test.xml" value="0.264" />
+        <entry key="..\:/Users/qkddn/AndroidStudioProjects/keepthetime_final/app/src/main/res/menu/main_bottom_nav.xml" value="0.17708333333333334" />
       </map>
     </option>
   </component>

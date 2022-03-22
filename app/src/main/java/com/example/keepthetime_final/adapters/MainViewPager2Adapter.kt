@@ -1,0 +1,25 @@
+package com.example.keepthetime_final.adapters
+
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.example.keepthetime_final.fragment.AppointmentListFragment
+import com.example.keepthetime_final.fragment.AppointmentMemoFragment
+import com.example.keepthetime_final.fragment.MyFriendsFragment
+import com.example.keepthetime_final.fragment.MyProfileFragment
+
+class MainViewPager2Adapter(fa:FragmentActivity): FragmentStateAdapter(fa) {
+    override fun getItemCount() = 3
+
+    override fun createFragment(position: Int): Fragment {
+
+        return when(position){
+
+            0 -> AppointmentListFragment()
+            1 -> MyProfileFragment()
+            else -> AppointmentMemoFragment()
+        }
+    }
+
+
+}

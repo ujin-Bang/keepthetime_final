@@ -3,6 +3,8 @@ package com.example.keepthetime_final
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager2.widget.ViewPager2
+import com.example.keepthetime_final.adapters.MainViewPager2Adapter
 import com.example.keepthetime_final.adapters.MainViewPagerAdapter
 import com.example.keepthetime_final.databinding.ActivityMainBinding
 import com.example.keepthetime_final.datas.BasicResponse
@@ -25,11 +27,36 @@ class MainActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.mainBottomNav.setOnItemSelectedListener {
+
+            when(it.itemId){
+                R.id.Appointment -> binding.mainViewPager2.currentItem = 0
+                R.id.myProfile -> binding.mainViewPager2.currentItem = 1
+                R.id.myNote -> binding.mainViewPager2.currentItem = 2
+
+            }
+            return@setOnItemSelectedListener true
+        }
+
+        binding.mainViewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+
+                binding.mainBottomNav.selectedItemId = when(position){
+                    0 -> R.id.Appointment
+                    1 -> R.id.myProfile
+                    else -> R.id.myNote
+                }
+            }
+
+        })
+
     }
 
     override fun setValues() {
 
-
+    binding.mainViewPager2.adapter = MainViewPager2Adapter(this)
 
 
     }
