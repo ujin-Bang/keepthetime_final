@@ -94,9 +94,9 @@ class EditAppointmentActivity : BaseActivity() {
                     response: Response<BasicResponse>
                 ) {
                     if(response.isSuccessful){
-                        val br = response.body()!!
 
-                        Log.d("약속장소 응답확인-",br.toString())
+                        Toast.makeText(mContext, "약속을 등록했습니다", Toast.LENGTH_SHORT).show()
+                        finish()
                     }
                 }
 
