@@ -45,8 +45,8 @@ class EditAppointmentActivity : BaseActivity() {
 //        저장버튼이 눌리면
         binding.btnAppointmentSave.setOnClickListener {
 
-
-            if (binding.edtAppointmentTitle.text.length == 0) {
+                val inputTitle = binding.edtAppointmentTitle.text.toString()
+            if (inputTitle.isEmpty()) {
                 Toast.makeText(mContext, "약속 제목을 입력해 주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -55,11 +55,18 @@ class EditAppointmentActivity : BaseActivity() {
                 Toast.makeText(mContext, "약속일자를 입력해 주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+//            선택일시가 지금보다 이전의 일시라면 "현재 이후의 시간으로 선택해주세요" 토스트 띄우기
+            val now = Calendar.getInstance()
+            if (mSelectedAppointmentDateTime.timeInMillis < now.timeInMillis) {
+                Toast.makeText(mContext, "현재날짜 이후로 입력해 주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             if (  binding.txtTime.text == "약속 시간") {
             Toast.makeText(mContext, "약속시간을 입력해 주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
         }
-            if (binding.edtPlaceName.text.length == 0) {
+            val inputPlaceName = binding.edtPlaceName.text.toString()
+            if (inputPlaceName.isEmpty()) {
                 Toast.makeText(mContext, "약속 장소를 입력해 주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -75,17 +82,22 @@ class EditAppointmentActivity : BaseActivity() {
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
 
             apilist.postRequestAddAppointment(
-                binding.edtAppointmentTitle.text.toString(),
+                inputTitle,
                 sdf.format(mSelectedAppointmentDateTime.time),
-                binding.edtPlaceName.text.toString(),
+                inputPlaceName,
                 mSelectedLatLng!!.latitude,
                 mSelectedLatLng!!.longitude,
+
             ).enqueue(object : Callback<BasicResponse>{
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
+                    if(response.isSuccessful){
+                        val br = response.body()!!
 
+                        Log.d("약속장소 응답확인-",br.toString())
+                    }
                 }
 
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
