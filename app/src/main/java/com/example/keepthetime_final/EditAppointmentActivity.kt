@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
@@ -11,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_final.databinding.ActivityEditAppointmentBinding
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.overlay.Marker
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,6 +22,10 @@ class EditAppointmentActivity : BaseActivity() {
 
     val mSelectedAppointmentDateTime = Calendar.getInstance()
 
+//    약속 장소 관련 멤버변수
+    var marker : Marker? = null //지도에 표시될 하나의 마커. 처음에는 찍지 않은 상태
+
+    var mSelectedLatLng: LatLng? = null //약속 장소 위/경도도 처음에는 설정하지 않은 상태
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_edit_appointment)
@@ -81,7 +87,7 @@ class EditAppointmentActivity : BaseActivity() {
     override fun setValues() {
 //        네이버지도 객체 얻어오기 => 얻어와지며 할 일(Interface)코딩
         binding.naverMapView.getMapAsync {
-//            지로로딩이 끝나고 얻어낸 지도객체
+//            지도로딩이 끝나고 얻어낸 지도객체
             val naverMap = it
 
 //              지도 시작 지점: 덕양구청 위/경도
@@ -90,6 +96,23 @@ class EditAppointmentActivity : BaseActivity() {
 //            coord에 설정한 좌표로 > 네이버지도의 카메라 이동
             val cameraUpdate = CameraUpdate.scrollTo(coord)
             naverMap.moveCamera( cameraUpdate)
+
+//            첫 마커 좌표 > 덕양구청
+//            val marker = Marker() => 멤버변수로 하나의 마커만 만들어서 관리하자.
+            marker = Marker()
+            marker!!.position = coord
+            marker!!.map = naverMap
+
+//            지도 클릭 이벤트
+            naverMap.setOnMapClickListener { pointF, latLng ->
+
+//                Log.d("클릭된 위/경도","위도${latLng.latitude},경도${latLng.longitude}")
+//                마커를 새로 추가
+
+                    marker!!.position = latLng
+                    marker!!.map = naverMap
+
+            }
         }
 
     }
