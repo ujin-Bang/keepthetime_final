@@ -14,11 +14,13 @@ import com.example.keepthetime_final.datas.BasicResponse
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.PathOverlay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditAppointmentActivity : BaseActivity() {
 
@@ -28,6 +30,7 @@ class EditAppointmentActivity : BaseActivity() {
 
     //    약속 장소 관련 멤버변수
     var marker: Marker? = null //지도에 표시될 하나의 마커. 처음에는 찍지 않은 상태
+    var path: PathOverlay? = null //출발지~ 도착지까지 보여줄 경로선, 처음에는 보이지 않게
 
     var mSelectedLatLng: LatLng? = null //약속 장소 위/경도도 처음에는 설정하지 않은 상태
 
@@ -192,6 +195,22 @@ class EditAppointmentActivity : BaseActivity() {
                 marker!!.map = naverMap
 //                약속 장소도 새 좌표로 설정
                 mSelectedLatLng = latLng
+
+//                coord ~선택한 latLng까지 직선을 그려보자 (PathOverlay 기능 활용)
+
+                if(path == null) {
+                    path = PathOverlay()
+                }
+
+//                ArrayList를 만들어서 출발지와 도착지를 추가.
+                val coordList = ArrayList<LatLng>()
+
+                coordList.add(coord) //출발지를 임시로 덕양구청으로
+                coordList.add( latLng ) //지도에 클릭 된 좌표 추가
+
+                path!!.coords = coordList
+
+                path!!.map = naverMap
 
             }
         }
