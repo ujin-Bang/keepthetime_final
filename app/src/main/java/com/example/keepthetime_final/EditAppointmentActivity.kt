@@ -37,6 +37,20 @@ class EditAppointmentActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+//        저장버튼이 눌리면
+        binding.btnAppointmentSave.setOnClickListener {
+
+//            장소를 선택했는지? 안했다면 등록 거부
+            if(mSelectedLatLng == LatLng(37.63774702756897, 126.8322707216135)){
+                Toast.makeText(mContext, "약속 장소를 선택하지 않았습니다", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            Log.d("선택한 약속장소 - 위도","위도: ${mSelectedLatLng!!.latitude}")
+            Log.d("선택한 약속장소 - 경도","경도: ${mSelectedLatLng!!.longitude}")
+
+
+        }
+
         binding.txtDate.setOnClickListener {
 
             val dsl = object : DatePickerDialog.OnDateSetListener{
@@ -103,6 +117,9 @@ class EditAppointmentActivity : BaseActivity() {
             marker!!.position = coord
             marker!!.map = naverMap
 
+//            처음 선택된 좌표 -> 덕양구청위치로
+            mSelectedLatLng = coord
+
 //            지도 클릭 이벤트
             naverMap.setOnMapClickListener { pointF, latLng ->
 
@@ -111,6 +128,8 @@ class EditAppointmentActivity : BaseActivity() {
 
                     marker!!.position = latLng
                     marker!!.map = naverMap
+//                약속 장소도 새 좌표로 설정
+                mSelectedLatLng = latLng
 
             }
         }
