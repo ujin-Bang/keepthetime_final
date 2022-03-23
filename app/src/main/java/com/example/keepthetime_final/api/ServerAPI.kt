@@ -2,10 +2,12 @@ package com.example.keepthetime_final.api
 
 import android.content.Context
 import com.example.keepthetime_final.utils.ContextUtil
+import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 
 class ServerAPI {
@@ -35,9 +37,18 @@ class ServerAPI {
                     .addInterceptor(interceptor)
                     .build()
 
+//                Date 자료형으로 파싱 => String을 yyyy-MM-dd HH:mm:ss으로 파싱해서 저장해야 함.
+
+                val gson = GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd HH:mm:ss") //서버가 이런 양식으로 보내주는 String을
+                    .registerTypeAdapter(
+                        Date::class.java,
+                        DateDeserializer()
+                    ) //어떤 형태의 자료형을 적용시킬지?
+                    .create()
                 retrofit = Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gson)) //gson라이브러리와 결합 + Date 파싱 요령 첨부
                     .client(myClient)
                     .build()
             }

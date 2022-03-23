@@ -7,5 +7,7 @@ class DataResponse (
     val friends: List<UserData>,
 
     val users: List<UserData>,
+
+    val appointments: List<AppointmentData>, //약속목록 데이타
         ){
 }
