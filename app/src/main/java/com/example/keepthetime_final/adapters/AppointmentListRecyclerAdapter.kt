@@ -28,12 +28,12 @@ class AppointmentListRecyclerAdapter(
             txtAppointmentTitle.text = data.title
             txtPlaceName.text = data.place
 
-//            서버가 주는 datetime(String - 2022-03-15 10:57:23 양식)
-//            중간에 Calendar / Date형태로 변환 =>
-//            출력하고 싶은 datetime(String - 22년 3월 5일 오후 2시 30분 양식)
+//            서버가 주는 datetime(Date형태로 내려옴)
+
+//            출력하고 싶은 datetime(String - 22년 3월 5일 오후 2시 30분 양식) - format활용
             val sdf = SimpleDateFormat("yy년 M월 d일 a h시 m분")
-            sdf.format(data.datetime)
-            txtDateTime.text = data.created_at
+
+            txtDateTime.text = sdf.format(data.datetime)
         }
 
     }
