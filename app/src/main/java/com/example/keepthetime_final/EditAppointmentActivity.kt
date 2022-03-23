@@ -196,6 +196,8 @@ class EditAppointmentActivity : BaseActivity() {
 //                약속 장소도 새 좌표로 설정
                 mSelectedLatLng = latLng
 
+
+
 //                coord ~선택한 latLng까지 직선을 그려보자 (PathOverlay 기능 활용)
 
                 if(path == null) {
