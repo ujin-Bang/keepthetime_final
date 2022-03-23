@@ -9,6 +9,8 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_final.databinding.ActivityEditAppointmentBinding
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -24,6 +26,8 @@ class EditAppointmentActivity : BaseActivity() {
         setupEvents()
         setValues()
     }
+
+
 
     override fun setupEvents() {
 
@@ -75,6 +79,18 @@ class EditAppointmentActivity : BaseActivity() {
     }
 
     override fun setValues() {
+//        네이버지도 객체 얻어오기 => 얻어와지며 할 일(Interface)코딩
+        binding.naverMapView.getMapAsync {
+//            지로로딩이 끝나고 얻어낸 지도객체
+            val naverMap = it
+
+//              지도 시작 지점: 덕양구청 위/경도
+            val coord = LatLng(37.63774702756897, 126.8322707216135)
+
+//            coord에 설정한 좌표로 > 네이버지도의 카메라 이동
+            val cameraUpdate = CameraUpdate.scrollTo(coord)
+            naverMap.moveCamera( cameraUpdate)
+        }
 
     }
 }
