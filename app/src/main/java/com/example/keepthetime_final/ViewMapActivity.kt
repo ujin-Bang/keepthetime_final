@@ -8,6 +8,7 @@ import com.example.keepthetime_final.databinding.ActivityViewMapBinding
 import com.example.keepthetime_final.datas.AppointmentData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
 import com.odsay.odsayandroidsdk.API
@@ -124,6 +125,16 @@ class ViewMapActivity : BaseActivity() {
                         val payment = infoObj.getString("payment")
 
                         val infoStr = "이동 시간 : ${minutes}분, 비용 : ${payment}원"
+
+//                        정보창에 띄우기
+                        val infoWindow = InfoWindow()
+                        infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext){
+                            override fun getText(p0: InfoWindow): CharSequence {
+                                return infoStr
+                            }
+
+                        }
+                        infoWindow.open(marker)
                     }
 
                     override fun onError(p0: Int, p1: String?, p2: API?) {
