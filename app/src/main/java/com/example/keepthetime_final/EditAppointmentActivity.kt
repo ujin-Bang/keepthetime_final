@@ -54,7 +54,7 @@ class EditAppointmentActivity : BaseActivity() {
 //        저장버튼이 눌리면
         binding.btnAppointmentSave.setOnClickListener {
 
-                val inputTitle = binding.edtAppointmentTitle.text.toString()
+            val inputTitle = binding.edtAppointmentTitle.text.toString()
             if (inputTitle.isEmpty()) {
                 Toast.makeText(mContext, "약속 제목을 입력해 주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -70,10 +70,10 @@ class EditAppointmentActivity : BaseActivity() {
                 Toast.makeText(mContext, "현재날짜 이후로 입력해 주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if (  binding.txtTime.text == "약속 시간") {
-            Toast.makeText(mContext, "약속시간을 입력해 주세요", Toast.LENGTH_SHORT).show()
+            if (binding.txtTime.text == "약속 시간") {
+                Toast.makeText(mContext, "약속시간을 입력해 주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-        }
+            }
             val inputPlaceName = binding.edtPlaceName.text.toString()
             if (inputPlaceName.isEmpty()) {
                 Toast.makeText(mContext, "약속 장소를 입력해 주세요", Toast.LENGTH_SHORT).show()
@@ -97,12 +97,12 @@ class EditAppointmentActivity : BaseActivity() {
                 mSelectedLatLng!!.latitude,
                 mSelectedLatLng!!.longitude,
 
-            ).enqueue(object : Callback<BasicResponse>{
+                ).enqueue(object : Callback<BasicResponse> {
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
 
                         Toast.makeText(mContext, "약속을 등록했습니다", Toast.LENGTH_SHORT).show()
                         finish()
@@ -192,7 +192,7 @@ class EditAppointmentActivity : BaseActivity() {
 
 //                Log.d("클릭된 위/경도","위도${latLng.latitude},경도${latLng.longitude}")
 //                (찍혀있는 마커가 없다면)마커를 새로 추가
-                if(marker == null) {
+                if (marker == null) {
                     marker = Marker()
                 }
 
@@ -204,7 +204,8 @@ class EditAppointmentActivity : BaseActivity() {
 
 //                coord~ 선택한 latLng까지 대중 교통 경로를 그려보자(PathOverlay 기능 활용) + ODSay라이브러리 활용
 
-                val myODsayService = ODsayService.init(mContext, "R3sydUQ87JbAGzbchasHghy6awYJaDQnZJg3MdQ1QBE")
+                val myODsayService =
+                    ODsayService.init(mContext, "R3sydUQ87JbAGzbchasHghy6awYJaDQnZJg3MdQ1QBE")
 
                 myODsayService.requestSearchPubTransPath(
                     coord.longitude.toString(),
@@ -214,7 +215,7 @@ class EditAppointmentActivity : BaseActivity() {
                     null,
                     null,
                     null,
-                    object : OnResultCallbackListener{
+                    object : OnResultCallbackListener {
                         override fun onSuccess(p0: ODsayData?, p1: API?) {
 
                             val jsonObj = p0!!.json!!
@@ -226,7 +227,7 @@ class EditAppointmentActivity : BaseActivity() {
                             val pathArr = resultObj.getJSONArray("path")//여러 추천 경로중 첫번째 만 사용해보자
 
                             val firstPathObj = pathArr.getJSONObject(0) //0번째 경로 추출
-                            Log.d("첫번째경로 경로",firstPathObj.toString())
+                            Log.d("첫번째경로 경로", firstPathObj.toString())
 
 //                                    첫번째 경로를 지나는 모든 정거장들의 위경도 값을 담을 목록
                             val stationLatLngList = ArrayList<LatLng>()
@@ -237,16 +238,16 @@ class EditAppointmentActivity : BaseActivity() {
 //                            불광~강남 : 도보 5분/ 지하철 30분 /버스 30분 / 도보 5분
                             val subPathArr = firstPathObj.getJSONArray("subPath")
 
-                            for( i in 0 until subPathArr.length()){
+                            for (i in 0 until subPathArr.length()) {
                                 val subPathObj = subPathArr.getJSONObject(i)
 //                                둘러보려는 경로가. 정거장 목록을 내려준다면 (지하철 or 버스)=> 내부파싱
-                                if(!subPathObj.isNull("passStopList")){
+                                if (!subPathObj.isNull("passStopList")) {
 
                                     val passStopListObj = subPathObj.getJSONObject("passStopList")
                                     val stationsArr = passStopListObj.getJSONArray("stations")
 
 //                                    실제 정거장 목록 파싱 => 각 정거장의 위도 / 경도 추출 가능 => ArrayList에 담아서 경로선의 좌표로 활용
-                                    for(j in 0 until stationsArr.length()){
+                                    for (j in 0 until stationsArr.length()) {
                                         val stationObj = stationsArr.getJSONObject(j)
 
 //                                        위도(y좌표), 경도(x좌표) 추출
@@ -254,7 +255,7 @@ class EditAppointmentActivity : BaseActivity() {
                                         val lng = stationObj.getString("x").toDouble()
 
 //                                        네이버 지도의 좌표로 만들어서 > ArrayList에 담자.
-                                        stationLatLngList.add(LatLng(lat,lng))
+                                        stationLatLngList.add(LatLng(lat, lng))
 
                                     }
 
@@ -268,38 +269,56 @@ class EditAppointmentActivity : BaseActivity() {
 
                             path!!.coords = stationLatLngList
                             path!!.map = naverMap
-                            
+
 //                            (첫번째 추천 경로의)정보 항목도 파싱
 //                            예상 소요시간 파싱 => 임시로 토스트 출력
                             val infoObj = firstPathObj.getJSONObject("info")
-                            
+
                             val totalTime = infoObj.getInt("totalTime") //소요분
-                            
+
                             val payment = infoObj.getInt("payment")//소요 비용
 
-                            val hour = totalTime/ 60
+                            val hour = totalTime / 60
                             val minutes = totalTime % 60
+                            val mPayment =
+                                NumberFormat.getNumberInstance(Locale.KOREA).format(payment)
+
+                            val infoWindow = InfoWindow()
+                            if (hour == 0) {
+                                //                            네이버 지도라이브러리의 InfoWinow 기능 활용
+
+                                infoWindow.adapter =
+                                    object : InfoWindow.DefaultTextAdapter(mContext) {
+                                        override fun getText(p0: InfoWindow): CharSequence {
 
 
+                                            return "이동시간: ${minutes}분, 비용: ${mPayment}원"
+                                        }
 
-//                            네이버 지도라이브러리의 InfoWinow 기능 활용
-                            val infoWindow =InfoWindow()
-                                infoWindow.adapter = object :InfoWindow.DefaultTextAdapter(mContext){
-                                    override fun getText(p0: InfoWindow): CharSequence {
+                                    }
+                            }
+                            else {
+                                infoWindow.adapter =
+                                    object : InfoWindow.DefaultTextAdapter(mContext) {
+                                        override fun getText(p0: InfoWindow): CharSequence {
 
-                                        return "이동시간: ${hour}시간 ${minutes}분, 비용: ${NumberFormat.getNumberInstance(Locale.KOREA).format(payment)}원"
+
+                                            return "이동시간: ${hour}시간 ${minutes}분, 비용: ${mPayment}원"
+                                        }
+
                                     }
 
-                                }
+                            }
+
+
                             infoWindow.open(marker!!)
 
                             marker!!.setOnClickListener {
 
-                                if(marker!!.infoWindow == null) {
+                                if (marker!!.infoWindow == null) {
                                     infoWindow.open(marker!!)
 
-                                }
-                                else{
+                                } else {
                                     infoWindow.close()
                                 }
                                 return@setOnClickListener true
@@ -317,7 +336,7 @@ class EditAppointmentActivity : BaseActivity() {
                     }
                 )
 
-                if(path == null) {
+                if (path == null) {
                     path = PathOverlay()
                 }
 
@@ -325,7 +344,7 @@ class EditAppointmentActivity : BaseActivity() {
                 val coordList = ArrayList<LatLng>()
 
                 coordList.add(coord) //출발지를 임시로 덕양구청으로
-                coordList.add( latLng ) //지도에 클릭 된 좌표 추가
+                coordList.add(latLng) //지도에 클릭 된 좌표 추가
 
                 path!!.coords = coordList
 

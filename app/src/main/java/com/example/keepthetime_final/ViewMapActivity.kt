@@ -3,6 +3,10 @@ package com.example.keepthetime_final
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.TextureView
+import android.view.View
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_final.databinding.ActivityViewMapBinding
 import com.example.keepthetime_final.datas.AppointmentData
@@ -15,6 +19,9 @@ import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
 import com.odsay.odsayandroidsdk.OnResultCallbackListener
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ViewMapActivity : BaseActivity() {
 
@@ -122,19 +129,68 @@ class ViewMapActivity : BaseActivity() {
 //                        파싱을 추가로 하면, 소요시간/ 비용 정보도 얻을 수 있다 => infoWindow에 결합.
                         val infoObj = firstPathObj.getJSONObject("info")
                         val minutes = infoObj.getInt("totalTime")
-                        val payment = infoObj.getString("payment")
+                        val payment = infoObj.getInt("payment")
 
-                        val infoStr = "이동 시간 : ${minutes}분, 비용 : ${payment}원"
+                        val hour = minutes/60
+                        val reMinutes = minutes%60
+                        if(hour == 0){
+                            val commaPayment = NumberFormat.getNumberInstance(Locale.KOREA).format(payment)
 
-//                        정보창에 띄우기
-                        val infoWindow = InfoWindow()
-                        infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext){
-                            override fun getText(p0: InfoWindow): CharSequence {
-                                return infoStr
+
+                            //                        정보창에 띄우기
+                            val infoWindow = InfoWindow()
+                            infoWindow.adapter = object :InfoWindow.DefaultViewAdapter(mContext){
+                                override fun getContentView(p0: InfoWindow): View {
+//                                    리턴 자료형: View를 리턴
+//                                    View객체를 만드는 방법? => LayoutInflater에게 inflate 시키면 >결과물이 View가 된다.
+                                    val view = LayoutInflater.from(mContext).inflate(R.layout.destination_info_window, null)
+
+                                    val txtPlaceName = view.findViewById<TextView>(R.id.txtPlaceName)
+                                    val txtMoveTime = view.findViewById<TextView>(R.id.txtMoveTime)
+                                    val txtPayment = view.findViewById<TextView>(R.id.txtPayment)
+
+                                    txtPlaceName.text = mAppointment.place
+                                    txtMoveTime.text = "이동 시간 : ${reMinutes}분 "
+                                    txtPayment.text = "비용 : ${commaPayment}원"
+
+                                    return view
+
+                           }
+
                             }
+                            infoWindow.open(marker)
+                        }
+                        else {
+
+                            val commaPayment = NumberFormat.getNumberInstance(Locale.KOREA).format(payment)
+
+
+                            //                        정보창에 띄우기
+                            val infoWindow = InfoWindow()
+                            infoWindow.adapter = object :InfoWindow.DefaultViewAdapter(mContext){
+                                override fun getContentView(p0: InfoWindow): View {
+//                                    리턴 자료형: View를 리턴
+//                                    View객체를 만드는 방법? => LayoutInflater에게 inflate 시키면 >결과물이 View가 된다.
+                                    val view = LayoutInflater.from(mContext).inflate(R.layout.destination_info_window, null)
+
+                                    val txtPlaceName = view.findViewById<TextView>(R.id.txtPlaceName)
+                                    val txtMoveTime = view.findViewById<TextView>(R.id.txtMoveTime)
+                                    val txtPayment = view.findViewById<TextView>(R.id.txtPayment)
+
+                                    txtPlaceName.text = mAppointment.place
+                                    txtMoveTime.text = "이동 시간 : ${hour}${reMinutes}분 "
+                                    txtPayment.text = "비용 : ${commaPayment}원"
+
+                                    return view
+
+                                }
+
+                            }
+                            infoWindow.open(marker)
 
                         }
-                        infoWindow.open(marker)
+
+
                     }
 
                     override fun onError(p0: Int, p1: String?, p2: API?) {
