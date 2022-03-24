@@ -1,6 +1,7 @@
 package com.example.keepthetime_final.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.keepthetime_final.R
+import com.example.keepthetime_final.ViewMapActivity
 import com.example.keepthetime_final.datas.AppointmentData
 import com.example.keepthetime_final.datas.UserData
 import java.text.SimpleDateFormat
@@ -34,6 +36,12 @@ class AppointmentListRecyclerAdapter(
             val sdf = SimpleDateFormat("yy년 M월 d일 a h시 m분")
 
             txtDateTime.text = sdf.format(data.datetime)
+
+            imgMap.setOnClickListener {
+                val myIntent = Intent(mContext, ViewMapActivity::class.java)
+                myIntent.putExtra("appointment", data)
+                mContext.startActivity(myIntent) //어댑터에서는 mContext로
+            }
         }
 
     }

@@ -1,5 +1,6 @@
 package com.example.keepthetime_final.datas
 
+import java.io.Serializable
 import java.util.*
 
 class AppointmentData(
@@ -17,5 +18,5 @@ class AppointmentData(
 
     val user: UserData,
     val invited_friends: List<UserData>,
-) {
+):Serializable {
 }

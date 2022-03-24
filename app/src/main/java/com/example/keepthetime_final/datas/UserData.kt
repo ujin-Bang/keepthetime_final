@@ -1,5 +1,7 @@
 package com.example.keepthetime_final.datas
 
+import java.io.Serializable
+
 class UserData(
     val id: Int,
     val email: String,
@@ -10,5 +12,5 @@ class UserData(
     val provider: String,
 
     val profile_img: String,
-) {
+):Serializable {
 }
