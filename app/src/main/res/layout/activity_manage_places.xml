@@ -8,5 +8,9 @@
         android:orientation="vertical"
         tools:context=".ManagePlacesActivity">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/startPlacesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 </layout>
