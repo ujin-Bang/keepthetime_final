@@ -23,6 +23,7 @@ import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -276,12 +277,17 @@ class EditAppointmentActivity : BaseActivity() {
                             
                             val payment = infoObj.getInt("payment")//소요 비용
 
+                            val hour = totalTime/ 60
+                            val minutes = totalTime % 60
+
+
+
 //                            네이버 지도라이브러리의 InfoWinow 기능 활용
                             val infoWindow =InfoWindow()
                                 infoWindow.adapter = object :InfoWindow.DefaultTextAdapter(mContext){
                                     override fun getText(p0: InfoWindow): CharSequence {
 
-                                        return "이동시간: ${totalTime}분, 비용: ${payment}원"
+                                        return "이동시간: ${hour}시간 ${minutes}분, 비용: ${NumberFormat.getNumberInstance(Locale.KOREA).format(payment)}원"
                                     }
 
                                 }
