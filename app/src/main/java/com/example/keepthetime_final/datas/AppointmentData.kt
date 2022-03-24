@@ -9,11 +9,11 @@ class AppointmentData(
     val title: String,
     val datetime: Date, //서버는 String으로 내려주지만, 파싱은 Date로 바꿔주고 싶다.
     val start_place: String,
-    val start_latitude: String,
-    val start_longitude: String,
+    val start_latitude: Double,
+    val start_longitude: Double,
     val place: String,
-    val latitude : String,
-    val longitude: String,
+    val latitude : Double,
+    val longitude: Double,
     val created_at: String,
 
     val user: UserData,

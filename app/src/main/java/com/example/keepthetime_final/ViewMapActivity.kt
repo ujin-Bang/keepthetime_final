@@ -5,6 +5,9 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_final.databinding.ActivityViewMapBinding
 import com.example.keepthetime_final.datas.AppointmentData
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.overlay.Marker
 
 class ViewMapActivity : BaseActivity() {
 
@@ -24,6 +27,23 @@ class ViewMapActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        binding.naverMapView.getMapAsync {
+
+            val naverMap = it
+
+//            도착지 자체를 변수화
+            val destLatLng = LatLng(mAppointment.latitude, mAppointment.longitude)
+
+//            도착지로 카메라 이동
+            val cameraUpdate = CameraUpdate.scrollTo(destLatLng)
+            naverMap.moveCamera(cameraUpdate)
+
+//            마커도 찍어주자.
+            val marker = Marker()
+            marker.position = destLatLng
+            marker.map = naverMap
+        }
 
     }
 }
