@@ -305,6 +305,9 @@ class EditAppointmentActivity : BaseActivity() {
                                 return@setOnClickListener true
                             }
 
+                            val cameraUpdate = CameraUpdate.scrollTo(latLng)
+                            naverMap.moveCamera(cameraUpdate)
+
                         }
 
                         override fun onError(p0: Int, p1: String?, p2: API?) {
