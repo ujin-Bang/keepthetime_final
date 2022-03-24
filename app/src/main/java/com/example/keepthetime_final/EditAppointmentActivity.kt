@@ -262,10 +262,19 @@ class EditAppointmentActivity : BaseActivity() {
 //                            최종 정거장~ 도착지까지 직선
                             stationLatLngList.add(latLng)
 
-//                            완성된 정거장 경로들ㅇ르 =>Path경로로 재설정 지도에 새로 반영
+//                            완성된 정거장 경로들을 =>Path경로로 재설정 지도에 새로 반영
 
                             path!!.coords = stationLatLngList
                             path!!.map = naverMap
+                            
+//                            (첫번째 추천 경로의)정보 항목도 파싱
+//                            예상 소요시간 파싱 => 임시로 토스트 출력
+                            val infoObj = firstPathObj.getJSONObject("info")
+                            
+                            val totalTime = infoObj.getInt("totalTime") //소요분
+                            
+                            val payment = infoObj.getInt("payment")//소요 비용
+                            Toast.makeText(mContext, "${totalTime}분 ${payment}원", Toast.LENGTH_SHORT).show()
 
                         }
 
