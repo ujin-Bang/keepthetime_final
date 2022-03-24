@@ -133,6 +133,7 @@ class ViewMapActivity : BaseActivity() {
 
                         val hour = minutes/60
                         val reMinutes = minutes%60
+
                         if(hour == 0){
                             val commaPayment = NumberFormat.getNumberInstance(Locale.KOREA).format(payment)
 
@@ -178,7 +179,7 @@ class ViewMapActivity : BaseActivity() {
                                     val txtPayment = view.findViewById<TextView>(R.id.txtPayment)
 
                                     txtPlaceName.text = mAppointment.place
-                                    txtMoveTime.text = "이동 시간 : ${hour}${reMinutes}분 "
+                                    txtMoveTime.text = "이동 시간 : ${hour}시간 ${reMinutes}분 "
                                     txtPayment.text = "비용 : ${commaPayment}원"
 
                                     return view
