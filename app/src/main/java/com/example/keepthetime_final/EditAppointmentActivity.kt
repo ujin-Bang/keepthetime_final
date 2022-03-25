@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_final.databinding.ActivityEditAppointmentBinding
 import com.example.keepthetime_final.datas.BasicResponse
+import com.example.keepthetime_final.datas.PlacesData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.InfoWindow
@@ -39,6 +40,9 @@ class EditAppointmentActivity : BaseActivity() {
     var path: PathOverlay? = null //출발지~ 도착지까지 보여줄 경로선, 처음에는 보이지 않게
 
     var mSelectedLatLng: LatLng? = null //약속 장소 위/경도도 처음에는 설정하지 않은 상태
+
+//    내 출발 장소 목록
+    val mStartPlaceList = ArrayList<PlacesData>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -353,5 +357,26 @@ class EditAppointmentActivity : BaseActivity() {
             }
         }
 
+//        내 출발장소 목록 불러오기
+        getMyStartPlaceListFromServer()
+
+    }
+
+    fun getMyStartPlaceListFromServer(){
+        apilist.getRequestStratPlacesList().enqueue(object :Callback<BasicResponse>{
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+
+                if (response.isSuccessful){
+                    val br = response.body()!!
+                    mStartPlaceList.clear()
+                    mStartPlaceList.addAll(br.data.places)
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+        })
     }
 }
