@@ -93,12 +93,17 @@ class EditAppointmentActivity : BaseActivity() {
             Log.d("선택한 약속장소 - 위도", "위도: ${mSelectedLatLng!!.latitude}")
             Log.d("선택한 약속장소 - 경도", "경도: ${mSelectedLatLng!!.longitude}")
 
+            val selectedStartPlace = mStartPlaceList[binding.startPlaceSpinner.selectedItemPosition]
+
 //            약속일시 - yyyy-MM-dd HH:mm양식을 서버가 지정해서 요청.
             val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
 
             apilist.postRequestAddAppointment(
                 inputTitle,
                 sdf.format(mSelectedAppointmentDateTime.time),
+                selectedStartPlace.name,
+                selectedStartPlace.latitude,
+                selectedStartPlace.longitude,
                 inputPlaceName,
                 mSelectedLatLng!!.latitude,
                 mSelectedLatLng!!.longitude,
@@ -170,6 +175,7 @@ class EditAppointmentActivity : BaseActivity() {
         }
 
     }
+
 
     override fun setValues() {
 //        네이버지도 객체 얻어오기 => 얻어와지며 할 일(Interface)코딩
