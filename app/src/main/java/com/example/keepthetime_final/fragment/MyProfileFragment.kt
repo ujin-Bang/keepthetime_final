@@ -19,6 +19,9 @@ import com.example.keepthetime_final.databinding.FragmentMyProfileBinding
 import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.utils.ContextUtil
 import com.example.keepthetime_final.utils.URIPathHelper
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -121,6 +124,13 @@ class MyProfileFragment: BaseFragment() {
 
 //                Uri -> 실제 첨부 가능한 파일형태로 변환해줘야 한다.(File객체를 Path를 통해서 만든다) -> 그래야 Retrofit에 첨부할 수 있게된다.
                 val file = File(URIPathHelper().getPath(mContext, selectedImageUri))
+
+//                완성된 파일을, Retrofit에 첨부 가능한 RequestBody형태로 가공.
+                val fileRequestBody = RequestBody.create( MediaType.get("image/*"), file )
+
+//                실제로 첨부하자. 일반 형태의 통신이 아니라, Multipart형태로 전송해 줘야 함. MultipartBody형태로 2차가공
+//                cf)파일이 같이 첨부되는 API통신은 Multipart 형태로 모든 데이터를 첨부해야 함.
+                val multiPartBody = MultipartBody.Part.createFormData("profile_image","myProfile.jpg",fileRequestBody)
 
             }
 
