@@ -5,6 +5,8 @@ import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
@@ -15,6 +17,7 @@ import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.datas.PlacesData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
@@ -42,9 +45,14 @@ class EditAppointmentActivity : BaseActivity() {
 
     var mSelectedLatLng: LatLng? = null //약속 장소 위/경도도 처음에는 설정하지 않은 상태
 
-//    내 출발 장소 목록
+    var naverMap: NaverMap? = null
+
+    //    내 출발 장소 목록
     val mStartPlaceList = ArrayList<PlacesData>()
-    lateinit var mStartPlaceAdapter : StartPlaceSpinnerAdapter
+    lateinit var mStartPlaceAdapter: StartPlaceSpinnerAdapter
+
+    //    선택한 출발 장소
+    var mSelectedStartPlace: PlacesData? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +64,30 @@ class EditAppointmentActivity : BaseActivity() {
 
 
     override fun setupEvents() {
+//        도전과제 : 스피너의 이벤트 처리
+        binding.startPlaceSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    position: Int,
+                    p3: Long
+                ) {
+
+//                몇번째 아이템이 선택되었는지, p2 or position이 알려줌.
+
+                    mSelectedStartPlace = mStartPlaceList[position]
+
+//                선택한 출발지 ~ 지도에서 클릭한 도착지까지의 이동 경로 / 교통 정보 표현.
+
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                }
+
+            }
 
 //        스크롤 보조용 텍스트뷰에 손이 닿으면 => 스크롤뷰의 이벤트 일시정지(지도만 움직이게)
         binding.txtScrollHelp.setOnTouchListener { view, motionEvent ->
@@ -192,14 +224,33 @@ class EditAppointmentActivity : BaseActivity() {
 //        네이버지도 객체 얻어오기 => 얻어와지며 할 일(Interface)코딩
         binding.naverMapView.getMapAsync {
 //            지도로딩이 끝나고 얻어낸 지도객체
-            val naverMap = it
+            naverMap = it
 
-//              지도 시작 지점: 덕양구청 위/경도
-            val coord = LatLng(37.63774702756897, 126.8322707216135)
+            setNaveMap()
+
+
+//        내 출발장소 목록 불러오기
+            getMyStartPlaceListFromServer()
+
+//        스피너 어댑터 연결 > 리스트뷰와 동일함
+            mStartPlaceAdapter = StartPlaceSpinnerAdapter(
+                mContext,
+                R.layout.start_place_spinner_list_item,
+                mStartPlaceList
+            )
+            binding.startPlaceSpinner.adapter = mStartPlaceAdapter
+
+        }
+    }
+
+    fun setNaveMap() {
+//        로딩이 끝난 네이버 지도를 가지고 실행할 코드
+        //              지도 시작 지점: 덕양구청 위/경도
+        val coord = LatLng(37.63774702756897, 126.8322707216135)
 
 //            coord에 설정한 좌표로 > 네이버지도의 카메라 이동
-            val cameraUpdate = CameraUpdate.scrollTo(coord)
-            naverMap.moveCamera(cameraUpdate)
+        val cameraUpdate = CameraUpdate.scrollTo(coord)
+        naverMap!!.moveCamera(cameraUpdate)
 
 //            첫 마커 좌표 > 덕양구청 ->null
 //            val marker = Marker() => 멤버변수로 하나의 마커만 만들어서 관리하자.
@@ -211,185 +262,177 @@ class EditAppointmentActivity : BaseActivity() {
 //            mSelectedLatLng = coord
 
 //            지도 클릭 이벤트
-            naverMap.setOnMapClickListener { pointF, latLng ->
+        naverMap!!.setOnMapClickListener { pointF, latLng ->
 
 //                Log.d("클릭된 위/경도","위도${latLng.latitude},경도${latLng.longitude}")
 //                (찍혀있는 마커가 없다면)마커를 새로 추가
-                if (marker == null) {
-                    marker = Marker()
-                }
+            if (marker == null) {
+                marker = Marker()
+            }
 
 //                그 마커의 위치 / 지도 적용
-                marker!!.position = latLng
-                marker!!.map = naverMap
+            marker!!.position = latLng
+            marker!!.map = naverMap
 //                약속 장소도 새 좌표로 설정
-                mSelectedLatLng = latLng
+            mSelectedLatLng = latLng
 
 //                coord~ 선택한 latLng까지 대중 교통 경로를 그려보자(PathOverlay 기능 활용) + ODSay라이브러리 활용
 
-                val myODsayService =
-                    ODsayService.init(mContext, "R3sydUQ87JbAGzbchasHghy6awYJaDQnZJg3MdQ1QBE")
+            val myODsayService =
+                ODsayService.init(mContext, "R3sydUQ87JbAGzbchasHghy6awYJaDQnZJg3MdQ1QBE")
 
-                myODsayService.requestSearchPubTransPath(
-                    coord.longitude.toString(),
-                    coord.latitude.toString(),
-                    latLng.longitude.toString(),
-                    latLng.latitude.toString(),
-                    null,
-                    null,
-                    null,
-                    object : OnResultCallbackListener {
-                        override fun onSuccess(p0: ODsayData?, p1: API?) {
+            myODsayService.requestSearchPubTransPath(
+                coord.longitude.toString(),
+                coord.latitude.toString(),
+                latLng.longitude.toString(),
+                latLng.latitude.toString(),
+                null,
+                null,
+                null,
+                object : OnResultCallbackListener {
+                    override fun onSuccess(p0: ODsayData?, p1: API?) {
 
-                            val jsonObj = p0!!.json!!
-                            Log.d("길찾기 응답", jsonObj.toString())
+                        val jsonObj = p0!!.json!!
+                        Log.d("길찾기 응답", jsonObj.toString())
 
-                            val resultObj = jsonObj.getJSONObject("result")
-                            Log.d("result ", jsonObj.toString())
+                        val resultObj = jsonObj.getJSONObject("result")
+                        Log.d("result ", jsonObj.toString())
 
-                            val pathArr = resultObj.getJSONArray("path")//여러 추천 경로중 첫번째 만 사용해보자
+                        val pathArr = resultObj.getJSONArray("path")//여러 추천 경로중 첫번째 만 사용해보자
 
-                            val firstPathObj = pathArr.getJSONObject(0) //0번째 경로 추출
-                            Log.d("첫번째경로 경로", firstPathObj.toString())
+                        val firstPathObj = pathArr.getJSONObject(0) //0번째 경로 추출
+                        Log.d("첫번째경로 경로", firstPathObj.toString())
 
 //                                    첫번째 경로를 지나는 모든 정거장들의 위경도 값을 담을 목록
-                            val stationLatLngList = ArrayList<LatLng>()
+                        val stationLatLngList = ArrayList<LatLng>()
 
 //                            출발지 좌표를 정거장 목록에 먼저 추가
-                            stationLatLngList.add(coord)
+                        stationLatLngList.add(coord)
 
 //                            불광~강남 : 도보 5분/ 지하철 30분 /버스 30분 / 도보 5분
-                            val subPathArr = firstPathObj.getJSONArray("subPath")
+                        val subPathArr = firstPathObj.getJSONArray("subPath")
 
-                            for (i in 0 until subPathArr.length()) {
-                                val subPathObj = subPathArr.getJSONObject(i)
+                        for (i in 0 until subPathArr.length()) {
+                            val subPathObj = subPathArr.getJSONObject(i)
 //                                둘러보려는 경로가. 정거장 목록을 내려준다면 (지하철 or 버스)=> 내부파싱
-                                if (!subPathObj.isNull("passStopList")) {
+                            if (!subPathObj.isNull("passStopList")) {
 
-                                    val passStopListObj = subPathObj.getJSONObject("passStopList")
-                                    val stationsArr = passStopListObj.getJSONArray("stations")
+                                val passStopListObj = subPathObj.getJSONObject("passStopList")
+                                val stationsArr = passStopListObj.getJSONArray("stations")
 
 //                                    실제 정거장 목록 파싱 => 각 정거장의 위도 / 경도 추출 가능 => ArrayList에 담아서 경로선의 좌표로 활용
-                                    for (j in 0 until stationsArr.length()) {
-                                        val stationObj = stationsArr.getJSONObject(j)
+                                for (j in 0 until stationsArr.length()) {
+                                    val stationObj = stationsArr.getJSONObject(j)
 
 //                                        위도(y좌표), 경도(x좌표) 추출
-                                        val lat = stationObj.getString("y").toDouble()
-                                        val lng = stationObj.getString("x").toDouble()
+                                    val lat = stationObj.getString("y").toDouble()
+                                    val lng = stationObj.getString("x").toDouble()
 
 //                                        네이버 지도의 좌표로 만들어서 > ArrayList에 담자.
-                                        stationLatLngList.add(LatLng(lat, lng))
-
-                                    }
+                                    stationLatLngList.add(LatLng(lat, lng))
 
                                 }
+
                             }
+                        }
 
 //                            최종 정거장~ 도착지까지 직선
-                            stationLatLngList.add(latLng)
+                        stationLatLngList.add(latLng)
 
 //                            완성된 정거장 경로들을 =>Path경로로 재설정 지도에 새로 반영
 
-                            path!!.coords = stationLatLngList
-                            path!!.map = naverMap
+                        path!!.coords = stationLatLngList
+                        path!!.map = naverMap
 
 //                            (첫번째 추천 경로의)정보 항목도 파싱
 //                            예상 소요시간 파싱 => 임시로 토스트 출력
-                            val infoObj = firstPathObj.getJSONObject("info")
+                        val infoObj = firstPathObj.getJSONObject("info")
 
-                            val totalTime = infoObj.getInt("totalTime") //소요분
+                        val totalTime = infoObj.getInt("totalTime") //소요분
 
-                            val payment = infoObj.getInt("payment")//소요 비용
+                        val payment = infoObj.getInt("payment")//소요 비용
 
-                            val hour = totalTime / 60
-                            val minutes = totalTime % 60
-                            val mPayment =
-                                NumberFormat.getNumberInstance(Locale.KOREA).format(payment)
+                        val hour = totalTime / 60
+                        val minutes = totalTime % 60
+                        val mPayment =
+                            NumberFormat.getNumberInstance(Locale.KOREA).format(payment)
 
-                            val infoWindow = InfoWindow()
-                            if (hour == 0) {
-                                //                            네이버 지도라이브러리의 InfoWinow 기능 활용
+                        val infoWindow = InfoWindow()
+                        if (hour == 0) {
+                            //                            네이버 지도라이브러리의 InfoWinow 기능 활용
 
-                                infoWindow.adapter =
-                                    object : InfoWindow.DefaultTextAdapter(mContext) {
-                                        override fun getText(p0: InfoWindow): CharSequence {
-
-
-                                            return "이동시간: ${minutes}분, 비용: ${mPayment}원"
-                                        }
-
-                                    }
-                            }
-                            else {
-                                infoWindow.adapter =
-                                    object : InfoWindow.DefaultTextAdapter(mContext) {
-                                        override fun getText(p0: InfoWindow): CharSequence {
+                            infoWindow.adapter =
+                                object : InfoWindow.DefaultTextAdapter(mContext) {
+                                    override fun getText(p0: InfoWindow): CharSequence {
 
 
-                                            return "이동시간: ${hour}시간 ${minutes}분, 비용: ${mPayment}원"
-                                        }
-
+                                        return "이동시간: ${minutes}분, 비용: ${mPayment}원"
                                     }
 
-                            }
-
-
-                            infoWindow.open(marker!!)
-
-                            marker!!.setOnClickListener {
-
-                                if (marker!!.infoWindow == null) {
-                                    infoWindow.open(marker!!)
-
-                                } else {
-                                    infoWindow.close()
                                 }
-                                return@setOnClickListener true
+                        } else {
+                            infoWindow.adapter =
+                                object : InfoWindow.DefaultTextAdapter(mContext) {
+                                    override fun getText(p0: InfoWindow): CharSequence {
+
+
+                                        return "이동시간: ${hour}시간 ${minutes}분, 비용: ${mPayment}원"
+                                    }
+
+                                }
+
+                        }
+
+
+                        infoWindow.open(marker!!)
+
+                        marker!!.setOnClickListener {
+
+                            if (marker!!.infoWindow == null) {
+                                infoWindow.open(marker!!)
+
+                            } else {
+                                infoWindow.close()
                             }
-
-                            val cameraUpdate = CameraUpdate.scrollTo(latLng)
-                            naverMap.moveCamera(cameraUpdate)
-
+                            return@setOnClickListener true
                         }
 
-                        override fun onError(p0: Int, p1: String?, p2: API?) {
-
-                        }
+                        val cameraUpdate = CameraUpdate.scrollTo(latLng)
+                        naverMap!!.moveCamera(cameraUpdate)
 
                     }
-                )
 
-                if (path == null) {
-                    path = PathOverlay()
+                    override fun onError(p0: Int, p1: String?, p2: API?) {
+
+                    }
+
                 }
+            )
+
+            if (path == null) {
+                path = PathOverlay()
+            }
 
 //                ArrayList를 만들어서 출발지와 도착지를 추가.
-                val coordList = ArrayList<LatLng>()
+            val coordList = ArrayList<LatLng>()
 
-                coordList.add(coord) //출발지를 임시로 덕양구청으로
-                coordList.add(latLng) //지도에 클릭 된 좌표 추가
+            coordList.add(coord) //출발지를 임시로 덕양구청으로
+            coordList.add(latLng) //지도에 클릭 된 좌표 추가
 
-                path!!.coords = coordList
+            path!!.coords = coordList
 
-                path!!.map = naverMap
+            path!!.map = naverMap
 
-            }
         }
-
-//        내 출발장소 목록 불러오기
-        getMyStartPlaceListFromServer()
-
-//        스피너 어댑터 연결 > 리스트뷰와 동일함
-        mStartPlaceAdapter = StartPlaceSpinnerAdapter(mContext, R.layout.start_place_spinner_list_item,mStartPlaceList)
-        binding.startPlaceSpinner.adapter = mStartPlaceAdapter
-
     }
 
-    fun getMyStartPlaceListFromServer(){
-        apilist.getRequestStratPlacesList().enqueue(object :Callback<BasicResponse>{
+
+    fun getMyStartPlaceListFromServer() {
+
+        apilist.getRequestStratPlacesList().enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     val br = response.body()!!
                     mStartPlaceList.clear()
                     mStartPlaceList.addAll(br.data.places)
