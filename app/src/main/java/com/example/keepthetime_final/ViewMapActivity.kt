@@ -42,7 +42,10 @@ class ViewMapActivity : BaseActivity() {
 
     override fun setValues() {
 
-        binding.naverMapView.getMapAsync {
+//      제목 문구를 "약속장소 지도 확인"
+        txtTitle.text = "약속장소 지도 확인"
+
+binding.naverMapView.getMapAsync {
 
             val naverMap = it
 

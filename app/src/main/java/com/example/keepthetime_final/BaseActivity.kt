@@ -2,6 +2,8 @@ package com.example.keepthetime_final
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -13,6 +15,10 @@ abstract class BaseActivity: AppCompatActivity() {
     lateinit var mContext: Context
 
     lateinit var apilist: APIList
+
+//    액션바의 UI요소들을 멤버변수로 => 상속받은 화면들이 각자 컨트롤 가능
+    lateinit var txtTitle: TextView
+    lateinit var btnAdd: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,10 @@ abstract class BaseActivity: AppCompatActivity() {
 
         val toolBar = defaultActionBar.customView.parent as Toolbar
         toolBar.setContentInsetsAbsolute(0,0)
+
+//        UI요소들 실제 값 대입
+        txtTitle = defaultActionBar.customView.findViewById(R.id.txtTitle)
+        btnAdd = defaultActionBar.customView.findViewById(R.id.btnAdd)
 
     }
 }
