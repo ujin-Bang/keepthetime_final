@@ -18,9 +18,11 @@ import com.example.keepthetime_final.SplashActivity
 import com.example.keepthetime_final.databinding.FragmentMyProfileBinding
 import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.utils.ContextUtil
+import com.example.keepthetime_final.utils.URIPathHelper
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 class MyProfileFragment: BaseFragment() {
 
@@ -117,10 +119,10 @@ class MyProfileFragment: BaseFragment() {
 //                data? 변수가 선택된 사진에 대한 정보를 가지고 있다.
                 val selectedImageUri = data?.data!! //선택한 사진에 찾아갈 경로(Uri) 받아내기
 
-//                임시 : 선택한 사진을 이미지뷰에 반영
-                Glide.with(mContext).load(selectedImageUri).into(binding.imgProfile)
+//                Uri -> 실제 첨부 가능한 파일형태로 변환해줘야 한다.(File객체를 Path를 통해서 만든다) -> 그래야 Retrofit에 첨부할 수 있게된다.
+                val file = File(URIPathHelper().getPath(mContext, selectedImageUri))
+
             }
-        }
 
     }
 
