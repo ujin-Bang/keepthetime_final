@@ -37,9 +37,21 @@ class MainActivity : BaseActivity() {
         binding.mainBottomNav.setOnItemSelectedListener {
 
             when(it.itemId){
-                R.id.Appointment -> binding.mainViewPager2.currentItem = 0
-                R.id.myProfile -> binding.mainViewPager2.currentItem = 1
-                R.id.myNote -> binding.mainViewPager2.currentItem = 2
+                R.id.Appointment -> {
+                    binding.mainViewPager2.currentItem = 0
+                    btnAdd.visibility = View.VISIBLE
+                    txtAddPlace.visibility =View.VISIBLE
+                }
+                R.id.myProfile -> {
+                    binding.mainViewPager2.currentItem = 1
+                    btnAdd.visibility =View.GONE
+                    txtAddPlace.visibility = View.GONE
+                }
+                R.id.myNote -> {
+                    binding.mainViewPager2.currentItem = 2
+                    btnAdd.visibility =View.GONE
+                    txtAddPlace.visibility = View.GONE
+                }
 
             }
             return@setOnItemSelectedListener true
@@ -64,6 +76,7 @@ class MainActivity : BaseActivity() {
     override fun setValues() {
 
         btnAdd.visibility = View.VISIBLE
+        txtAddPlace.visibility = View.VISIBLE
 
     binding.mainViewPager2.adapter = MainViewPager2Adapter(this)
 

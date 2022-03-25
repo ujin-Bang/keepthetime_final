@@ -10,16 +10,37 @@
         android:layout_height="wrap_content"
         android:text="keep your promise"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="17sp"
         android:layout_gravity="center"/>
 
-    <ImageView
-        android:id="@+id/btnAdd"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_marginEnd="10dp"
-        android:visibility="gone"
-        android:layout_gravity="end|center_vertical"
-        android:src="@drawable/button_add_icon"/>
+
+        android:gravity="end">
+
+        <ImageView
+            android:id="@+id/btnAdd"
+            android:visibility="gone"
+            android:padding="3.5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/button_add_icon"/>
+
+        <TextView
+            android:id="@+id/txtAddPlace"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:layout_marginTop="-5dp"
+            android:text="약속추가"
+            android:textColor="@color/black"/>
+
+
+    </LinearLayout>
+
 
 </FrameLayout>

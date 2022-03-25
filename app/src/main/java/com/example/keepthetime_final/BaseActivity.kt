@@ -19,6 +19,7 @@ abstract class BaseActivity: AppCompatActivity() {
 //    액션바의 UI요소들을 멤버변수로 => 상속받은 화면들이 각자 컨트롤 가능
     lateinit var txtTitle: TextView
     lateinit var btnAdd: ImageView
+    lateinit var txtAddPlace: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +52,7 @@ abstract class BaseActivity: AppCompatActivity() {
 //        UI요소들 실제 값 대입
         txtTitle = defaultActionBar.customView.findViewById(R.id.txtTitle)
         btnAdd = defaultActionBar.customView.findViewById(R.id.btnAdd)
+        txtAddPlace = defaultActionBar.customView.findViewById(R.id.txtAddPlace)
 
     }
 }
