@@ -43,6 +43,7 @@ class ManagePlacesActivity : BaseActivity() {
 
         txtTitle.text = "내 출발 장소 관리"
         btnAdd.visibility = View.VISIBLE//숨겨져 있던 추가 버튼을 보이게
+        txtEdtPlace.visibility = View.VISIBLE
 
         mAdapter = StartPlacesListRecyclerAdapter(mContext, mManagePlacesList)
         binding.startPlacesRecyclerView.adapter = mAdapter
