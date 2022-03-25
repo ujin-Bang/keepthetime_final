@@ -29,15 +29,15 @@ import java.io.File
 
 class MyProfileFragment: BaseFragment() {
 
-    lateinit var binding : FragmentMyProfileBinding
-    val REQ_CODE_GALLERY  =  2000
+    lateinit var binding: FragmentMyProfileBinding
+    val REQ_CODE_GALLERY = 2000
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_profile,container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_my_profile, container, false)
         return binding.root
 
     }
@@ -79,9 +79,10 @@ class MyProfileFragment: BaseFragment() {
                 .setMessage("정말 로그아웃 하시겠습니까?")
                 .setPositiveButton("예", DialogInterface.OnClickListener { dialogInterface, i ->
 
-                    ContextUtil.setLoginUserToken(mContext,"")
+                    ContextUtil.setLoginUserToken(mContext, "")
                     val myIntent = Intent(mContext, SplashActivity::class.java)
-                    myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    myIntent.flags =
+                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(myIntent)
                 })
                 .setNegativeButton("아니요", null)
@@ -92,16 +93,15 @@ class MyProfileFragment: BaseFragment() {
 
     override fun setValues() {
 
-        apiList.getRequestMyInfo().enqueue(object : Callback<BasicResponse>{
+        apiList.getRequestMyInfo().enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
 
                     val br = response.body()!!
 
                     Glide.with(mContext).load(br.data.user.profile_img).into(binding.imgProfile)
                     binding.txtNickname.text = br.data.user.nick_name
-
 
 
                 }
@@ -117,7 +117,7 @@ class MyProfileFragment: BaseFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == REQ_CODE_GALLERY){
+        if (requestCode == REQ_CODE_GALLERY) {
             if (requestCode == Activity.RESULT_OK) {
 //                data? 변수가 선택된 사진에 대한 정보를 가지고 있다.
                 val selectedImageUri = data?.data!! //선택한 사진에 찾아갈 경로(Uri) 받아내기
@@ -126,14 +126,36 @@ class MyProfileFragment: BaseFragment() {
                 val file = File(URIPathHelper().getPath(mContext, selectedImageUri))
 
 //                완성된 파일을, Retrofit에 첨부 가능한 RequestBody형태로 가공.
-                val fileRequestBody = RequestBody.create( MediaType.get("image/*"), file )
+                val fileRequestBody = RequestBody.create(MediaType.get("image/*"), file)
 
 //                실제로 첨부하자. 일반 형태의 통신이 아니라, Multipart형태로 전송해 줘야 함. MultipartBody형태로 2차가공
 //                cf)파일이 같이 첨부되는 API통신은 Multipart 형태로 모든 데이터를 첨부해야 함.
-                val multiPartBody = MultipartBody.Part.createFormData("profile_image","myProfile.jpg",fileRequestBody)
+                val multiPartBody = MultipartBody.Part.createFormData(
+                    "profile_image",
+                    "myProfile.jpg",
+                    fileRequestBody
+                )
+
+//                실제 서버에 완성된 데이터 전송
+                apiList.putRequestProfileImg(
+                    multiPartBody
+                ).enqueue(object : Callback<BasicResponse> {
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+
+                    }
+
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                    }
+                })
+
 
             }
 
-    }
+        }
 
+    }
 }
