@@ -4,8 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.keepthetime_final.fragment.AppointmentListFragment
-import com.example.keepthetime_final.fragment.AppointmentMemoFragment
-import com.example.keepthetime_final.fragment.MyFriendsFragment
+import com.example.keepthetime_final.fragment.AppointmentFriendChattFragment
 import com.example.keepthetime_final.fragment.MyProfileFragment
 
 class MainViewPager2Adapter(fa:FragmentActivity): FragmentStateAdapter(fa) {
@@ -17,7 +16,7 @@ class MainViewPager2Adapter(fa:FragmentActivity): FragmentStateAdapter(fa) {
 
             0 -> AppointmentListFragment()
             1 -> MyProfileFragment()
-            else -> AppointmentMemoFragment()
+            else -> AppointmentFriendChattFragment()
         }
     }
 

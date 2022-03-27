@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "80816591572",
+    "project_id": "keepthetime-final",
+    "storage_bucket": "keepthetime-final.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80816591572:android:4fc2997e54e858620d6141",
+        "android_client_info": {
+          "package_name": "com.example.keepthetime_final"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "80816591572-f99rilv7htm9tcdurb002kfaq1r8s1u5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbPnrfFn0T44Fmpmiag0Oi1Jooln67HyY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80816591572-f99rilv7htm9tcdurb002kfaq1r8s1u5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
