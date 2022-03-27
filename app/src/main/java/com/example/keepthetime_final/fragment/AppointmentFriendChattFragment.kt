@@ -36,14 +36,7 @@ class AppointmentFriendChattFragment: BaseFragment() {
 
     override fun setValues() {
 
-//        DB연결 -> 값 기록 연습
-        val db = FirebaseDatabase.getInstance("https://realtimekeepthtimefinal-default-rtdb.asia-southeast1.firebasedatabase.app/") // 싱가폴 DB주소 대입
 
-//        DB의 하위 정보(Refernce) 설정
-         val testRef = db.getReference("test")
-
-//        test 항목에 "Hello Word!!" 기록
-         testRef.setValue("Hello World")
 
     }
 
