@@ -4,9 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.keepthetime_final.R
 import com.example.keepthetime_final.datas.ChattingData
+import org.w3c.dom.Text
 
 class ChattingRecyclerAdapter(
     val mContext: Context,
@@ -15,8 +17,13 @@ class ChattingRecyclerAdapter(
 
     inner class MyViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
+        val txtContent = view.findViewById<TextView>(R.id.txtContent)
+        val txtCreateAt = view.findViewById<TextView>(R.id.txtCreateAt)
 
         fun bind(data: ChattingData) {
+
+            txtContent.text = data.content
+            txtCreateAt.text = data.createAt
         }
     }
 

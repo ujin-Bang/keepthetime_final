@@ -50,7 +50,7 @@ class AppointmentFriendChattFragment: BaseFragment() {
         realtimeDB.getReference("message").addValueEventListener(object : ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
 
-//                파이어베이스의DB내용 변경 => 이 함수 실행시켜줌
+//                파이어베이스의 DB내용 변경 => 이 함수 실행시켜줌
 
 //                snapshot변수: 현재 변경된 상태 => 자녀가 몇개인지 추출
 
