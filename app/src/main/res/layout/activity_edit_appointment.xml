@@ -92,11 +92,25 @@
                     android:textColor="@color/black"
                     android:layout_marginTop="15dp"/>
 
-                <Spinner
-                    android:id="@+id/attendanceSpinner"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"/>
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/attendanceSpinner"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"/>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnAddAttendance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="참여추가"/>
+
+                </LinearLayout>
 
 
 
@@ -142,6 +156,7 @@
                     android:textSize="18sp"
                     android:text="약속 등록"/>
             </LinearLayout>
+
         </ScrollView>
 
 

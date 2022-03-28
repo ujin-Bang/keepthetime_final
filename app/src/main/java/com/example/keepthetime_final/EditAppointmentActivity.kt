@@ -11,6 +11,7 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.example.keepthetime_final.adapters.AttendanceSpinnerAdapter
 import com.example.keepthetime_final.adapters.StartPlaceSpinnerAdapter
 import com.example.keepthetime_final.databinding.ActivityEditAppointmentBinding
 import com.example.keepthetime_final.datas.BasicResponse
@@ -52,8 +53,9 @@ class EditAppointmentActivity : BaseActivity() {
     val mStartPlaceList = ArrayList<PlacesData>()
     lateinit var mStartPlaceAdapter: StartPlaceSpinnerAdapter
 
-    // 약속참석인원 리스트
+    // 약속참석인원 리스트/Adapter
     val mAttendanceList = ArrayList<UserData>()
+    lateinit var mAttendanceAdapter: AttendanceSpinnerAdapter
 
     //선택한 약속인원
     var mSelectedAttendance : UserData? = null
@@ -71,6 +73,25 @@ class EditAppointmentActivity : BaseActivity() {
 
 
     override fun setupEvents() {
+
+        binding.attendanceSpinner.onItemClickListener =
+                object : AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
+                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+
+                        mSelectedAttendance = mAttendanceList[position]
+
+
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+
+                    }
+
+                    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+
+                    }
+
+                }
 
 
 //        도전과제 : 스피너의 이벤트 처리
@@ -247,6 +268,10 @@ class EditAppointmentActivity : BaseActivity() {
             getMyStartPlaceListFromServer()
 
             getAttendanceListFromServer()
+
+//        스피너 어댑터 연결 => 리스트뷰와 동일함
+         mAttendanceAdapter = AttendanceSpinnerAdapter(mContext, R.layout.attendance_spinner_list_item, mAttendanceList)
+            binding.attendanceSpinner.adapter = mAttendanceAdapter
 
 //        스피너 어댑터 연결 > 리스트뷰와 동일함
             mStartPlaceAdapter = StartPlaceSpinnerAdapter(
@@ -473,6 +498,7 @@ class EditAppointmentActivity : BaseActivity() {
 
                     mAttendanceList.clear()
                     mAttendanceList.addAll(br.data.friends)
+                    mAttendanceAdapter.notifyDataSetChanged()
                 }
             }
 
