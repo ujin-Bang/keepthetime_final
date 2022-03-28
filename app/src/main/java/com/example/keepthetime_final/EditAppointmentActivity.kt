@@ -7,10 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.DatePicker
-import android.widget.TimePicker
-import android.widget.Toast
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import com.example.keepthetime_final.adapters.AttendanceSpinnerAdapter
 import com.example.keepthetime_final.adapters.StartPlaceSpinnerAdapter
@@ -83,6 +80,9 @@ class EditAppointmentActivity : BaseActivity() {
             val friendView = LayoutInflater.from(mContext).inflate(R.layout.friend_attendance_spiner_list_item, null)
             binding.friendListLayout.addView(friendView)
 
+            val txtNickname = friendView.findViewById<TextView>(R.id.txtNickname)
+            txtNickname.text = mSelectedAttendance!!.nick_name
+
             mInviteFriendList.add(mSelectedAttendance!!)
 
             apilist.getRequestMyFriendList("all").enqueue(object : Callback<BasicResponse>{
@@ -92,6 +92,7 @@ class EditAppointmentActivity : BaseActivity() {
                 ) {
                     if(response.isSuccessful){
                         val br = response.body()!!
+                        mInviteFriendList.addAll(br.data.friends)
 
                     }
                 }
