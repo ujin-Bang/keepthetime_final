@@ -66,6 +66,7 @@ class EditMyPlaceActivity : BaseActivity() {
     }
 
     override fun setValues() {
+        txtTitle.text = "출발 장소 추가하기"
 
         binding.naverMapView.getMapAsync {
             val naverMap = it

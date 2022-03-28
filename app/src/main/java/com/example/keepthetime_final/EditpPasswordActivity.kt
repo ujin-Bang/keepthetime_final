@@ -81,6 +81,7 @@ class EditpPasswordActivity : BaseActivity() {
     }
 
     override fun setValues() {
+        txtTitle.text = "비밀번호 변경"
 
     }
 }

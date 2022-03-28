@@ -38,6 +38,7 @@ class ManageMyFriendsActivity : BaseActivity() {
     }
 
     override fun setValues() {
+        txtTitle.text = "내 친구 목록 / 친구 추가 요청 목록"
 
         mAdapter = MyFriendViewPagerAdapter(supportFragmentManager)
         binding.friendsViewPager.adapter = mAdapter

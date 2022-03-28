@@ -287,7 +287,9 @@ class EditAppointmentActivity : BaseActivity() {
 
 
     override fun setValues() {
-//        네이버지도 객체 얻어오기 => 얻어와지며 할 일(Interface)코딩
+
+        txtTitle.text = "약속 등록하기"
+//       네이버지도 객체 얻어오기 => 얻어와지며 할 일(Interface)코딩
         binding.naverMapView.getMapAsync {
 //            지도로딩이 끝나고 얻어낸 지도객체
             naverMap = it
