@@ -5,6 +5,7 @@ import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.DatePicker
@@ -63,6 +64,9 @@ class EditAppointmentActivity : BaseActivity() {
     //    선택한 출발 장소
     var mSelectedStartPlace: PlacesData? = null
 
+    // 초대한 인원목록
+    val mInviteFriendList = ArrayList<UserData>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,11 +78,37 @@ class EditAppointmentActivity : BaseActivity() {
 
     override fun setupEvents() {
 
-        binding.attendanceSpinner.onItemClickListener =
+        binding.btnAddAttendance.setOnClickListener {
+
+            val friendView = LayoutInflater.from(mContext).inflate(R.layout.friend_attendance_spiner_list_item, null)
+            binding.friendListLayout.addView(friendView)
+
+            mInviteFriendList.add(mSelectedAttendance!!)
+
+            apilist.getRequestMyFriendList("all").enqueue(object : Callback<BasicResponse>{
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+                    if(response.isSuccessful){
+                        val br = response.body()!!
+
+                    }
+                }
+
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                }
+
+            })
+        }
+
+        binding.attendanceSpinner.onItemSelectedListener =
                 object : AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
                     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
 
                         mSelectedAttendance = mAttendanceList[position]
+
 
 
                     }
