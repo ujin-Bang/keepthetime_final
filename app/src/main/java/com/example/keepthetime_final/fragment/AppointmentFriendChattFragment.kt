@@ -60,14 +60,14 @@ class AppointmentFriendChattFragment: BaseFragment() {
             val inputContent = binding.edtContent.text.toString()
 
 //            임시: DB의 하위 항목으로 => message 항목 => 0번 항목의 => content항목: 입력내용
-            realtimeDB.getReference("message").child("0").child("content").setValue(inputContent)
+            realtimeDB.getReference("message").child(messageCount.toString()).child("content").setValue(inputContent)
 //            추가 기록: 현재 시간값을 "2022년 3월 5일 오후 5:05" 양식으로 기록
 
             val now = Calendar.getInstance()
             val sdf = SimpleDateFormat("yyyy년 M월 d일 a h:mm")
             val nowStr = sdf.format(now.time)
 
-            realtimeDB.getReference("message").child("0").child("createdAt").setValue(nowStr)
+            realtimeDB.getReference("message").child(messageCount.toString()).child("createdAt").setValue(nowStr)
         }
 
     }
