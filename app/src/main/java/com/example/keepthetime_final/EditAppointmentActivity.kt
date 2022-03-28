@@ -15,6 +15,7 @@ import com.example.keepthetime_final.adapters.StartPlaceSpinnerAdapter
 import com.example.keepthetime_final.databinding.ActivityEditAppointmentBinding
 import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.datas.PlacesData
+import com.example.keepthetime_final.datas.UserData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
@@ -51,6 +52,12 @@ class EditAppointmentActivity : BaseActivity() {
     val mStartPlaceList = ArrayList<PlacesData>()
     lateinit var mStartPlaceAdapter: StartPlaceSpinnerAdapter
 
+    // 약속참석인원 리스트
+    val mAttendanceList = ArrayList<UserData>()
+
+    //선택한 약속인원
+    var mSelectedAttendance : UserData? = null
+
     //    선택한 출발 장소
     var mSelectedStartPlace: PlacesData? = null
 
@@ -64,6 +71,8 @@ class EditAppointmentActivity : BaseActivity() {
 
 
     override fun setupEvents() {
+
+
 //        도전과제 : 스피너의 이벤트 처리
         binding.startPlaceSpinner.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -236,6 +245,8 @@ class EditAppointmentActivity : BaseActivity() {
         }
 //        내 출발장소 목록 불러오기
             getMyStartPlaceListFromServer()
+
+            getAttendanceListFromServer()
 
 //        스피너 어댑터 연결 > 리스트뷰와 동일함
             mStartPlaceAdapter = StartPlaceSpinnerAdapter(
@@ -453,6 +464,24 @@ class EditAppointmentActivity : BaseActivity() {
     )
 
 }
+
+    fun getAttendanceListFromServer(){
+        apilist.getRequestMyFriendList("all").enqueue(object : Callback<BasicResponse>{
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if (response.isSuccessful){
+                    val br = response.body()!!
+
+                    mAttendanceList.clear()
+                    mAttendanceList.addAll(br.data.friends)
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+        })
+    }
 
 
     fun getMyStartPlaceListFromServer() {
