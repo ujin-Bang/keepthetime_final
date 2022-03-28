@@ -11,5 +11,7 @@ class DataResponse (
     val appointments: List<AppointmentData>, //약속목록 데이타
 
     val places : List<PlacesData>
+
+
         ){
 }
