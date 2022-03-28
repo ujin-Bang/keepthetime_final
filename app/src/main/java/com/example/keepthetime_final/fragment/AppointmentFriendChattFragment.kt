@@ -8,17 +8,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.keepthetime_final.R
 import com.example.keepthetime_final.databinding.FragmentAppointmentChattBinding
+import com.example.keepthetime_final.datas.ChattingData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class AppointmentFriendChattFragment: BaseFragment() {
 
     var messageCount = 0L //DB에 저장된 채팅 갯수 담을 변수. Long타입으로 저장.
     lateinit var binding:FragmentAppointmentChattBinding
+
+    val mChattingList = ArrayList<ChattingData>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +51,14 @@ class AppointmentFriendChattFragment: BaseFragment() {
 //                snapshot변수: 현재 변경된 상태 => 자녀가 몇개인지 추출
 
                 messageCount = snapshot.childrenCount
+
+//                snapshot => 마지막 자녀 추출 => ChattingData로 변환 + 목록에 추가.
+                mChattingList.add(
+                    ChattingData(
+                    snapshot.children.last().child("content").value.toString(),
+                    snapshot.children.last().child("createdAt").value.toString()
+                )
+                )
 
 
             }
