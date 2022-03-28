@@ -91,4 +91,12 @@ interface APIList {
     fun putRequestProfileImg(
         @Part img: MultipartBody.Part
     ):Call<BasicResponse>
+
+    //비밀번호 변경
+    @FormUrlEncoded
+    @PATCH("/user/password")
+    fun patchRequestEditPassword(
+        @Field("current_password") currentPassword: String,
+        @Field("new_password") new_password: String,
+    ):Call<BasicResponse>
 }

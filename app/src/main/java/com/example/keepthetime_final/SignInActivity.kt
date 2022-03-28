@@ -33,10 +33,13 @@ class SignInActivity : BaseActivity() {
 
         }
 
+
         binding.btnLogin.setOnClickListener {
+
 
             val inputEmail = binding.edtEmail.text.toString()
             val inputPw = binding.edtPassword.text.toString()
+
 
             apilist.postRequestLogin(inputEmail, inputPw).enqueue( object : Callback<BasicResponse>{
                 override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {

@@ -13,10 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.example.keepthetime_final.ManageMyFriendsActivity
-import com.example.keepthetime_final.ManagePlacesActivity
-import com.example.keepthetime_final.R
-import com.example.keepthetime_final.SplashActivity
+import com.example.keepthetime_final.*
 import com.example.keepthetime_final.databinding.FragmentMyProfileBinding
 import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.utils.ContextUtil
@@ -54,7 +51,15 @@ class MyProfileFragment: BaseFragment() {
 
     override fun setupEvents() {
 
+        binding.txtEditPassword.setOnClickListener {
+
+           val myIntent = Intent(mContext, EditpPasswordActivity::class.java)
+            startActivity(myIntent)
+
+        }
+
         binding.imgProfile.setOnClickListener {
+
 
 //            이미지 조회 권한 확인
             val pl = object : PermissionListener {
