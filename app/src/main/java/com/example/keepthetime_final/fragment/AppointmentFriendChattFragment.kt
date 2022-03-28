@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.keepthetime_final.R
+import com.example.keepthetime_final.adapters.ChattingRecyclerAdapter
 import com.example.keepthetime_final.databinding.FragmentAppointmentChattBinding
 import com.example.keepthetime_final.datas.ChattingData
 import com.google.firebase.database.DataSnapshot
@@ -23,6 +25,8 @@ class AppointmentFriendChattFragment: BaseFragment() {
     lateinit var binding:FragmentAppointmentChattBinding
 
     val mChattingList = ArrayList<ChattingData>()
+
+    lateinit var mAdapter : ChattingRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +61,9 @@ class AppointmentFriendChattFragment: BaseFragment() {
                     ChattingData(
                     snapshot.children.last().child("content").value.toString(),
                     snapshot.children.last().child("createdAt").value.toString()
-                )
-                )
+                ) )
 
+                mAdapter.notifyDataSetChanged()
 
             }
 
@@ -86,7 +90,9 @@ class AppointmentFriendChattFragment: BaseFragment() {
 
     override fun setValues() {
 
-
+        mAdapter = ChattingRecyclerAdapter(mContext, mChattingList)
+        binding.chattingRecyclerView.adapter = mAdapter
+        binding.chattingRecyclerView.layoutManager = LinearLayoutManager(mContext)
 
     }
 
