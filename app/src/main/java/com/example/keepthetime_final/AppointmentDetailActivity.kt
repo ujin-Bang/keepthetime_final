@@ -38,12 +38,12 @@ class AppointmentDetailActivity : BaseActivity() {
         val txtPlaceName = findViewById<TextView>(R.id.txtPlaceName)
         val txtDateTime = findViewById<TextView>(R.id.txtDateTime)
 
-//        val sdf = SimpleDateFormat("y/M a h:mm")
-//        sdf.format(mAppointmentData.created_at)
+        val sdf = SimpleDateFormat("y/M a h:mm")
+
 
         txtInviderFriend.text = mAppointmentData.friend_list
         txtPlaceName.text = mAppointmentData.place
-        txtDateTime.text = mAppointmentData.created_at
+        txtDateTime.text = sdf.format(mAppointmentData.created_at)
 
 
         binding.appointmentDetailMapView.getMapAsync {
