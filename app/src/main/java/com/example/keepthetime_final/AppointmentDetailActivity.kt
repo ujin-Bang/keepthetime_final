@@ -3,21 +3,33 @@ package com.example.keepthetime_final
 import android.os.Bundle
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.keepthetime_final.adapters.InvitedListRecyclerAdapter
 import com.example.keepthetime_final.databinding.ActivityAppointmentDetailBinding
 import com.example.keepthetime_final.datas.AppointmentData
+import com.example.keepthetime_final.datas.BasicResponse
+import com.example.keepthetime_final.datas.InvitedFriendData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 
 
 class AppointmentDetailActivity : BaseActivity() {
     lateinit var binding: ActivityAppointmentDetailBinding
 
+    val mInvitedList = ArrayList<InvitedFriendData>()
+
+    lateinit var mInvitedAdapter: InvitedListRecyclerAdapter
+
     lateinit var mAppointmentData: AppointmentData
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_appointment_detail)
@@ -31,6 +43,11 @@ class AppointmentDetailActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        getRequesInvitedListFromServer()
+        mInvitedAdapter = InvitedListRecyclerAdapter(mContext, mInvitedList)
+        binding.appointmentDetailRecyclerView.adapter = mInvitedAdapter
+        binding.appointmentDetailRecyclerView.layoutManager = LinearLayoutManager(mContext)
 
         txtTitle.text = "약속목록 상세화면"
 
@@ -94,6 +111,25 @@ class AppointmentDetailActivity : BaseActivity() {
 
         }
 
+    }
+
+    fun getRequesInvitedListFromServer(){
+        apilist.getRequestAppointmentDetail(542).enqueue(object :Callback<BasicResponse>{
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+
+                if (response.isSuccessful){
+                    val br = response.body()!!
+                    mInvitedList.clear()
+                    mInvitedList.addAll(br.data.appointment.invited_friends)
+                    mInvitedAdapter.notifyDataSetChanged()
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+        })
     }
 
 }
