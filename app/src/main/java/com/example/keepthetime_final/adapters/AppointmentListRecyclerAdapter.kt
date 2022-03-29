@@ -34,6 +34,8 @@ class AppointmentListRecyclerAdapter(
 
             btnMoveDetailAppointment.setOnClickListener {
                 val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
+                myIntent.putExtra("appointmentData",data)
+
                 mContext.startActivity(myIntent)
             }
             txtAppointmentTitle.text = data.title

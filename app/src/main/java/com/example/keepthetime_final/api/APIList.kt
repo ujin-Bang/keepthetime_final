@@ -100,4 +100,9 @@ interface APIList {
         @Field("current_password") currentPassword: String,
         @Field("new_password") new_password: String,
     ):Call<BasicResponse>
+
+    @GET("/appointment/{appointment_id}")
+    fun getRequestAppointmentDetail(
+        @Path("appointment_id") appointmentId: Int,
+    ): Call<BasicResponse>
 }
