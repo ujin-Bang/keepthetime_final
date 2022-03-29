@@ -189,6 +189,8 @@ class EditAppointmentActivity : BaseActivity() {
                 Toast.makeText(mContext, "약속시간을 입력해 주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+
             val inputPlaceName = binding.edtPlaceName.text.toString()
             if (inputPlaceName.isEmpty()) {
                 Toast.makeText(mContext, "약속 장소를 입력해 주세요", Toast.LENGTH_SHORT).show()
@@ -216,6 +218,7 @@ class EditAppointmentActivity : BaseActivity() {
                 inputPlaceName,
                 mSelectedLatLng!!.latitude,
                 mSelectedLatLng!!.longitude,
+                mSelectedAttendance!!.id.toString(),
 
                 ).enqueue(object : Callback<BasicResponse> {
                 override fun onResponse(

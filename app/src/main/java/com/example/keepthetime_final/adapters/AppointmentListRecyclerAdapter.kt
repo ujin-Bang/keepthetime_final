@@ -2,12 +2,15 @@ package com.example.keepthetime_final.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.keepthetime_final.AppointmentDetailActivity
 import com.example.keepthetime_final.R
 import com.example.keepthetime_final.ViewMapActivity
 import com.example.keepthetime_final.datas.AppointmentData
@@ -25,8 +28,14 @@ class AppointmentListRecyclerAdapter(
         val txtDateTime = view.findViewById<TextView>(R.id.txtDateTime)
         val txtPlaceName = view.findViewById<TextView>(R.id.txtPlaceName)
         val imgMap = view.findViewById<ImageView>(R.id.imgMap)
+        val btnMoveDetailAppointment = view.findViewById<LinearLayout>(R.id.btnMoveDetailAppointment)
 
         fun bind(data: AppointmentData){
+
+            btnMoveDetailAppointment.setOnClickListener {
+                val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
+                mContext.startActivity(myIntent)
+            }
             txtAppointmentTitle.text = data.title
             txtPlaceName.text = data.place
 

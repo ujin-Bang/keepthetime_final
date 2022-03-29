@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Keepthetime_final">
         <activity
+            android:name=".AppointmentDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditpPasswordActivity"
             android:exported="false" />
         <activity

@@ -15,6 +15,7 @@ class AppointmentData(
     val latitude : Double,
     val longitude: Double,
     val created_at: String,
+    val friend_list: String,
 
     val user: UserData,
     val invited_friends: List<UserData>,
