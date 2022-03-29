@@ -18,6 +18,6 @@ class AppointmentData(
     val friend_list: String,
 
     val user: UserData,
-    val invited_friends: List<UserData>,
+    val invited_friends: List<InvitedFriendData>,
 ):Serializable {
 }
