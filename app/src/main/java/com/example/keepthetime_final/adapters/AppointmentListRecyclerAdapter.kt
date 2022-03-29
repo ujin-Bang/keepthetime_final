@@ -22,6 +22,7 @@ import com.example.keepthetime_final.api.ServerAPI
 import com.example.keepthetime_final.datas.AppointmentData
 import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.datas.UserData
+import com.example.keepthetime_final.fragment.AppointmentListFragment
 import com.example.keepthetime_final.utils.ContextUtil
 import retrofit2.Call
 import retrofit2.Callback
@@ -60,7 +61,7 @@ class AppointmentListRecyclerAdapter(
                                 response: Response<BasicResponse>
                             ) {
                                 if (response.isSuccessful){
-
+                                    AppointmentListFragment.frag.getRequestAppointmentListFromServer()
                                 }
                                 else {
                                     val br = response.body()!!
@@ -81,6 +82,7 @@ class AppointmentListRecyclerAdapter(
 
 
             }
+
 
             btnMoveDetailAppointment.setOnClickListener {
                 val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)

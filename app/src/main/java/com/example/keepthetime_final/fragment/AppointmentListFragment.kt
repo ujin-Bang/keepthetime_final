@@ -27,6 +27,10 @@ class AppointmentListFragment: BaseFragment() {
 
     lateinit var mAdapter: AppointmentListRecyclerAdapter
 
+    companion object{
+        lateinit var frag : AppointmentListFragment
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,6 +45,7 @@ class AppointmentListFragment: BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         setupEvents()
         setValues()
+        frag = this
     }
 
     override fun setupEvents() {
