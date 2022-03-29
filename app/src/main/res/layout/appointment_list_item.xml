@@ -49,4 +49,13 @@
         android:layout_height="40dp"
         android:src="@drawable/map_icon"/>
 
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgDelete"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/delete_icon"
+        android:padding="4dp"/>
+
+
 </LinearLayout>

@@ -91,17 +91,24 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
 
-                <ImageView
-                    android:padding="6dp"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/refresh_icon"/>
-                <TextView
-
-                    android:layout_marginStart="5dp"
+                <LinearLayout
+                    android:id="@+id/btnRefresh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="새로 고침"/>
+                    android:gravity="center_vertical">
+                    <ImageView
+                        android:padding="6dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/refresh_icon"/>
+                    <TextView
+
+                        android:layout_marginStart="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="새로 고침"/>
+                </LinearLayout>
+
 
 
             </LinearLayout>

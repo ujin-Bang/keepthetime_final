@@ -1,6 +1,7 @@
 package com.example.keepthetime_final
 
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +12,6 @@ import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.datas.InvitedFriendData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraPosition
-import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
@@ -54,13 +54,26 @@ class AppointmentDetailActivity : BaseActivity() {
         val txtInviderFriend = findViewById<TextView>(R.id.txtInviderFriend)
         val txtPlaceName = findViewById<TextView>(R.id.txtPlaceName)
         val txtDateTime = findViewById<TextView>(R.id.txtDateTime)
+        val btnRefresh = findViewById<LinearLayout>(R.id.btnRefresh)
 
         val sdf = SimpleDateFormat("M/d a h:mm")
 
 
-        txtInviderFriend.text = mAppointmentData.friend_list
+        txtInviderFriend.text = mAppointmentData.invited_friends.size.toString()
         txtPlaceName.text = mAppointmentData.place
         txtDateTime.text = sdf.format(mAppointmentData.datetime)
+        btnRefresh.setOnClickListener {
+            finish() //인텐트 종료
+
+            overridePendingTransition(0, 0) //인텐트 효과 없애기
+
+            val intent = intent //인텐트
+
+            startActivity(intent) //액티비티 열기
+
+            overridePendingTransition(0, 0) //인텐트 효과 없애기
+
+        }
 
 
         binding.appointmentDetailMapView.getMapAsync {
@@ -114,7 +127,7 @@ class AppointmentDetailActivity : BaseActivity() {
     }
 
     fun getRequesInvitedListFromServer(){
-        apilist.getRequestAppointmentDetail(542).enqueue(object :Callback<BasicResponse>{
+        apilist.getRequestAppointmentDetail(mAppointmentData.id).enqueue(object :Callback<BasicResponse>{
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
                 if (response.isSuccessful){

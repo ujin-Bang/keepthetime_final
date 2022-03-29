@@ -105,4 +105,9 @@ interface APIList {
     fun getRequestAppointmentDetail(
         @Path("appointment_id") appointmentId: Int,
     ): Call<BasicResponse>
+
+    @DELETE("/appointment")
+    fun deleteRequestAppointment(
+        @Query("appointment_id") appointmentId: Int,
+    ): Call<BasicResponse>
 }

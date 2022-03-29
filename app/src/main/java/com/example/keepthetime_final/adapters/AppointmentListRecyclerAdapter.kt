@@ -1,6 +1,7 @@
 package com.example.keepthetime_final.adapters
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.text.Layout
 import android.view.LayoutInflater
@@ -9,12 +10,22 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.example.keepthetime_final.AppointmentDetailActivity
 import com.example.keepthetime_final.R
+import com.example.keepthetime_final.SplashActivity
 import com.example.keepthetime_final.ViewMapActivity
+import com.example.keepthetime_final.api.APIList
+import com.example.keepthetime_final.api.ServerAPI
 import com.example.keepthetime_final.datas.AppointmentData
+import com.example.keepthetime_final.datas.BasicResponse
 import com.example.keepthetime_final.datas.UserData
+import com.example.keepthetime_final.utils.ContextUtil
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 
 class AppointmentListRecyclerAdapter(
@@ -29,8 +40,47 @@ class AppointmentListRecyclerAdapter(
         val txtPlaceName = view.findViewById<TextView>(R.id.txtPlaceName)
         val imgMap = view.findViewById<ImageView>(R.id.imgMap)
         val btnMoveDetailAppointment = view.findViewById<LinearLayout>(R.id.btnMoveDetailAppointment)
+        val imgDelete = view.findViewById<ImageView>(R.id.imgDelete)
 
         fun bind(data: AppointmentData){
+
+            imgDelete.setOnClickListener {
+
+                val alert = AlertDialog.Builder(mContext)
+                    .setTitle("삭제요청")
+                    .setMessage("약속목록을 삭제 하시겠습니까?")
+                    .setPositiveButton("예", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                        val retrofit = ServerAPI.getRetrofit(mContext)
+                        val apiList = retrofit.create(APIList::class.java)
+
+                        apiList.deleteRequestAppointment(data.id).enqueue(object : Callback<BasicResponse>{
+                            override fun onResponse(
+                                call: Call<BasicResponse>,
+                                response: Response<BasicResponse>
+                            ) {
+                                if (response.isSuccessful){
+
+                                }
+                                else {
+                                    val br = response.body()!!
+                                    Toast.makeText(mContext, br.message, Toast.LENGTH_SHORT).show()
+                                }
+
+                            }
+
+                            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                            }
+
+                        })
+
+                    })
+                    .setNegativeButton("아니요", null)
+                    .show()
+
+
+            }
 
             btnMoveDetailAppointment.setOnClickListener {
                 val myIntent = Intent(mContext, AppointmentDetailActivity::class.java)
