@@ -74,7 +74,7 @@ class SearchUserRecyclerAdapter(
                         if (response.isSuccessful){
 
                             val br = response.body()!!
-                            Toast.makeText(mContext, "친구요청을 했어유", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(mContext, "친구요청을 했습니다.", Toast.LENGTH_SHORT).show()
 
                         }
 

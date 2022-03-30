@@ -111,15 +111,15 @@ class SignupActivity : BaseActivity() {
             val inputPw = binding.edtPassword.text.toString()
             val inputNickname = binding.edtNickname.text.toString()
 
-            if(inputEmail.length.equals(0) ) {
+            if(inputEmail.isEmpty() ) {
 
                 Toast.makeText(mContext, "이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
-             else if(inputPw.equals(0)){
+             if(inputPw.isEmpty()){
                 Toast.makeText(mContext, "비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
 
             }
-             else if(inputNickname.equals(0)){
+             if(inputNickname.isEmpty()){
                 Toast.makeText(mContext, "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show()
 
             }
@@ -162,6 +162,7 @@ class SignupActivity : BaseActivity() {
     }
 
     override fun setValues() {
+        txtTitle.text = "회원 가입"
 
     }
 }

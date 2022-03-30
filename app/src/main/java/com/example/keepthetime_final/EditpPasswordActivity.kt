@@ -25,7 +25,9 @@ class EditpPasswordActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+
         binding.btnSave.setOnClickListener {
+
             val inputPw = binding.edtPassword.text.toString()
             val inputNewPw = binding.edtNewPassword.text.toString()
 
@@ -39,9 +41,11 @@ class EditpPasswordActivity : BaseActivity() {
                 Toast.makeText(mContext, "새 비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
             if(inputNewPw.length >=5) {
                 binding.imgOk.visibility = View.VISIBLE
             }
+
             else {
                 Toast.makeText(mContext, "5글자 이상 입력해주세요", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
