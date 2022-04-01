@@ -23,4 +23,11 @@
         <item name="backgroundTint">@color/light_gray2</item>
 
     </style>
+    <style name="Theme.Keepthetime_final.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Keepthetime_final.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Keepthetime_final.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
