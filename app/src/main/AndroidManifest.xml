@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.keepthetime_final">
+    package="com.promise.keepthetime_final">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -13,37 +13,37 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Keepthetime_final">
         <activity
-            android:name=".AppointmentDetailActivity"
+            android:name="com.promise.keepthetime_final.AppointmentDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".EditpPasswordActivity"
+            android:name="com.promise.keepthetime_final.EditpPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".EditMyPlaceActivity"
+            android:name="com.promise.keepthetime_final.EditMyPlaceActivity"
             android:exported="false" />
         <activity
-            android:name=".ManagePlacesActivity"
+            android:name="com.promise.keepthetime_final.ManagePlacesActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewMapActivity"
+            android:name="com.promise.keepthetime_final.ViewMapActivity"
             android:exported="false" />
         <activity
-            android:name=".EditAppointmentActivity"
+            android:name="com.promise.keepthetime_final.EditAppointmentActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchUserActivity"
+            android:name="com.promise.keepthetime_final.SearchUserActivity"
             android:exported="false" />
         <activity
-            android:name=".ManageMyFriendsActivity"
+            android:name="com.promise.keepthetime_final.ManageMyFriendsActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupActivity"
+            android:name="com.promise.keepthetime_final.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.promise.keepthetime_final.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name="com.promise.keepthetime_final.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignInActivity"
+            android:name="com.promise.keepthetime_final.SignInActivity"
             android:exported="true" />
 
         <meta-data
